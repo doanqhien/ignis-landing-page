@@ -1,11 +1,11 @@
-import React from "react";
+import { TextReveal } from "@/components/ui/text-reveal"
 import Image from "next/image";
 
 export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative flex flex-col items-center overflow-hidden bg-[#0a0a0c]"
+      className="relative flex flex-col items-center overflow-clip bg-[#0a0a0c]"
       style={{ paddingTop: "56px" }}
     >
       {/* Background with subtle stars */}
@@ -30,8 +30,8 @@ export const HeroSection = () => {
         </p>
 
         {/* Main heading wrapper for positioning the tag */}
-        <div className="relative inline-block text-left">
-          <h1 className="text-[44px] md:text-[64px] lg:text-[80px] font-light leading-[1.05] tracking-[-0.02em] text-white">
+        <div className="relative inline-block text-center">
+          {/* <h1 className="text-[44px] md:text-[64px] lg:text-[80px] font-light leading-[1.05] tracking-[-0.02em] text-white">
             <span
               style={{
                 background: "linear-gradient(90deg, #7dd3fc 0%, #3b82f6 100%)",
@@ -45,8 +45,8 @@ export const HeroSection = () => {
             the future
             <br />
             of hypersonic flight
-          </h1>
-
+          </h1> */}
+              <TextReveal>Pioneering the future of hypersonic flight</TextReveal>
           {/* COMING SOON Floating Tag */}
           <div className="absolute -top-2 md:-top-4 -right-24 md:-right-40 hidden sm:flex items-center gap-2">
             <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="text-zinc-600 overflow-visible opacity-60">

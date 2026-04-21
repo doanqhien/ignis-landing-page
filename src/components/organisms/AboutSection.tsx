@@ -1,6 +1,7 @@
 import React from "react";
 import { WireframeIcon } from "../atoms/WireframeIcon";
 import { FeatureCard } from "../molecules/FeatureCard";
+import { TextReveal } from "@/components/ui/text-reveal";
 
 export const AboutSection = () => {
   const features = [
@@ -82,7 +83,7 @@ export const AboutSection = () => {
               </svg>
             </div>
 
-            <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-light leading-[1.2] tracking-[-0.01em]">
+            {/* <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-light leading-[1.2] tracking-[-0.01em]">
               <span
                 style={{
                   background: "linear-gradient(90deg, #7dd3fc 0%, #3b82f6 100%)",
@@ -98,7 +99,8 @@ export const AboutSection = () => {
               <span className="text-white">defence</span>
               <br />
               <span className="text-white">and commercial applications.</span>
-            </h2>
+            </h2> */}
+            <TextReveal>Sovereign Australian propulsion enabling next-generation defence and commercial applications.</TextReveal>
           </div>
 
           {/* Capabilities divider */}
