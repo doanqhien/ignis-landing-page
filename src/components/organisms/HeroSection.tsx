@@ -38,6 +38,7 @@ export const HeroSection = () => {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                
               }}
             >
               Pioneering
@@ -46,7 +47,17 @@ export const HeroSection = () => {
             <br />
             of hypersonic flight
           </h1> */}
-              <TextReveal>Pioneering the future of hypersonic flight</TextReveal>
+          <h1 
+            className="text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
+            style={{
+              background: "radial-gradient(circle at 60% 120%, #FFFFFF 50%, #58b1e3 70%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Pioneering the future <br /> of hypersonic flight
+          </h1>
           {/* COMING SOON Floating Tag */}
           <div className="absolute -top-2 md:-top-4 -right-24 md:-right-40 hidden sm:flex items-center gap-2">
             <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="text-zinc-600 overflow-visible opacity-60">

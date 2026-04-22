@@ -22,7 +22,7 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   // "end 15%" -> finishes revealing when the bottom of element is 15% from the top
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 70%", "end 70%"],
+    offset: ["start 65%", "end 65%"],
   })
 
   if (typeof children !== "string") {
@@ -36,9 +36,9 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
       <div className="bg-transparent">
         <span
           className={
-            "flex flex-wrap text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em] text-white/20 pt-10"
+            "flex flex-wrap text-[36px] md:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.02em] text-white pt-10"
           }
-        >
+        > 
           {words.map((word, i) => {
             const start = i / words.length
             const end = start + 1 / words.length
@@ -62,12 +62,13 @@ interface WordProps {
 
 const Word: FC<WordProps> = ({ children, progress, range }) => {
   const opacity = useTransform(progress, range, [0, 1])
+  const blur = useTransform(progress, range, [5, 0])
   return (
     <span className="xl:lg-3 relative mx-1 lg:mx-1.5">
       <span className="absolute opacity-30">{children}</span>
       <motion.span
-        style={{ opacity: opacity }}
-        className={"text-blue dark:text-red"}
+        style={{ opacity: opacity, filter: `blur(${blur}px)` }}
+        className={"bg-[linear-gradient(180deg,#58b1e3_40%,#b2dbf2_70%,#ffffff_90%)] bg-clip-text text-transparent"}
       >
         {children}
       </motion.span>
