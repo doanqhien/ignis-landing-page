@@ -1,81 +1,51 @@
-import React from "react";
-import { WireframeIcon } from "../atoms/WireframeIcon";
-import { FeatureCard } from "../molecules/FeatureCard";
+import Image from "next/image";
+import EfficientIcon from "@/public/Efficient.png";
+import ScalableIcon from "@/public/Scalable.png";
+import AffordableIcon from "@/public/Affordable.png";
 import { TextReveal } from "@/components/ui/text-reveal";
+import { FeatureCard } from "../molecules/FeatureCard";
+import { LightRays } from "@/components/ui/light-rays";
 
 export const AboutSection = () => {
   const features = [
     {
       title: "EFFICIENT",
       description:
-        "Bringing the world closer in seconds with pioneering hypersonic flight technology.",
-      icon: <WireframeIcon type="efficient" />,
+        "Advanced pressure-gain combustion delivers superior performance with less propellant.",
+      icon: <Image src={EfficientIcon} alt="Efficient" width={400} height={400}/>,
     },
     {
       title: "SCALABLE",
       description:
-        "Sovereign propulsion enabling next-generation defence and commercial applications.",
-      icon: <WireframeIcon type="scalable" />,
+        "Modular architecture that adapts seamlessly to different missions and vehicles.",
+      icon: <Image src={ScalableIcon} alt="Scalable" width={400} height={400}/>,
     },
     {
       title: "AFFORDABLE",
       description:
-        "Our solutions deliver exceptional reliability, scaling seamlessly for the edge of possible.",
-      icon: <WireframeIcon type="affordable" />,
+        "Engineered for lower development, manufacturing, and operational costs without compromising quality.",
+      icon: <Image src={AffordableIcon} alt="Affordable" width={400} height={400}/>,
     },
   ];
 
   return (
     <section id="about" className="relative py-24 bg-[#0a0a0c]">
       <div className="max-w-[1100px] mx-auto px-8 md:px-16">
+        <LightRays />
         {/* Section header */}
         <div className="text-center mb-16">
-          {/* Small geometric icon */}
-          <div className="flex items-center justify-center mb-4">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              className="text-zinc-600"
-            >
-              <rect
-                x="3"
-                y="3"
-                width="22"
-                height="22"
-                rx="2"
-                stroke="currentColor"
-                strokeWidth="0.8"
-                strokeDasharray="3 2"
-              />
-              <rect
-                x="8"
-                y="8"
-                width="12"
-                height="12"
-                rx="1"
-                stroke="currentColor"
-                strokeWidth="0.6"
-              />
-              <circle cx="14" cy="14" r="2.5" stroke="currentColor" strokeWidth="0.6" />
-            </svg>
-          </div>
-
           {/* HIGH PERFORMANCE subtitle */}
-          <p className="text-[9px] tracking-[0.25em] text-[#7dd3fc] uppercase mb-6 flex items-center justify-center gap-2">
-            <span className="w-1 h-1 bg-[#7dd3fc] rounded-full shadow-[0_0_8px_#7dd3fc]"></span>
+          <p className="text-[9px] tracking-[0.25em] text-zinc-500 uppercase mb-6 flex items-center justify-center gap-2">
             High Performance
           </p>
 
           {/* Mission text wrapper for tag positioning */}
-          <div className="relative inline-block text-center mt-2">
+          <div className="relative inline-block mt-2">
             
             {/* BORN IN AUSTRALIA Floating Tag */}
-            <div className="absolute top-2 -left-40 xl:-left-48 hidden lg:flex items-center gap-0 opacity-90">
+            <div className="absolute top-0 -left-2 xl:-left-4 hidden lg:flex items-center gap-0 opacity-90">
               <div className="-mt-4 border border-zinc-700/60 bg-zinc-900/60 px-3 py-1.5 flex items-center gap-2 text-[8px] tracking-[0.2em] text-zinc-300 uppercase backdrop-blur-sm z-10 rounded-sm">
-                <span className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full border border-[#7dd3fc] shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
-                Born in Australia
+                 Born in
               </div>
               <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="text-zinc-500 overflow-visible -ml-1">
                 <path d="M0 10 L 20 10 L 20 25 L 40 25" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
@@ -102,15 +72,6 @@ export const AboutSection = () => {
             </h2> */}
             <TextReveal>Sovereign Australian propulsion enabling next-generation defence and commercial applications.</TextReveal>
           </div>
-
-          {/* Capabilities divider */}
-          <div className="mt-10 flex items-center justify-center gap-4">
-            <div className="w-12 h-[1px] bg-zinc-800" />
-            <span className="text-[8px] text-zinc-700 tracking-[0.2em] uppercase">
-              Capabilities
-            </span>
-            <div className="w-12 h-[1px] bg-zinc-800" />
-          </div>
         </div>
 
         {/* Feature cards */}
@@ -129,7 +90,7 @@ export const AboutSection = () => {
         <div className="mt-16 flex items-center justify-center">
           <a
             href="#solutions"
-            className="inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase border border-zinc-700/80 px-8 py-3.5 rounded bg-zinc-900/30 hover:bg-zinc-800/80 hover:border-zinc-500 transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase px-5 py-4 rounded bg-zinc-800 hover:bg-zinc-800/80 hover:border-zinc-500 transition-all duration-300"
           >
             Contact Us →
           </a>

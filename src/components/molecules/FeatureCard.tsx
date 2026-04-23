@@ -1,4 +1,3 @@
-import React from "react";
 
 interface FeatureCardProps {
   title: string;
@@ -11,6 +10,7 @@ export const FeatureCard = ({ title, description, icon }: FeatureCardProps) => {
     <div className="flex flex-col p-7 bg-zinc-900/20 border border-zinc-800/40 rounded-lg hover:bg-zinc-800/20 hover:border-zinc-700/40 transition-all duration-500">
       <h3 className="text-[10px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-8 flex items-center gap-1.5">
         {title}{" "}
+        <span className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full border border-[#7dd3fc] shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
         <span className="text-zinc-600 text-[9px]">↘</span>
       </h3>
 

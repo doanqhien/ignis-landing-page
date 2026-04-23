@@ -5,13 +5,13 @@ export const TechnologySection = () => {
   const stats = [
     {
       number: "01",
-      title: "ROTATING DETONATION ENGINE",
+      title: "RDRE (Rotating Detonation Rocket Engine)",
       description:
-        "Our RDE technology harnesses the energy of continuous detonation waves, delivering up to 25% greater thermodynamic efficiency than conventional engines.",
+        "Revolutionary patent-pending rotating detonation technology that provides higher efficiency and thrust density than conventional rocket engines.",
     },
     {
       number: "02",
-      title: "SCRAMJET INTEGRATION",
+      title: "Digital Twin",
       description:
         "Advanced scramjet propulsion for sustained hypersonic flight at Mach 5+ speeds with breakthrough air-breathing engine design.",
     },
@@ -48,13 +48,13 @@ export const TechnologySection = () => {
               {/* Vertical line connecting the steps */}
               <div className="absolute left-[13px] top-[10px] bottom-[40px] w-[1px] bg-zinc-200" />
 
-              <div className="space-y-12">
+              <div className="space-y-24">
                 {stats.map((stat, index) => (
                   <div key={stat.number} className="relative z-10 flex items-start gap-8">
                     {/* Number block with white background to break the vertical line */}
-                    <div className="bg-white py-1">
-                      <span className="flex items-center justify-center w-7 h-7 text-[10px] font-mono text-zinc-800 border border-zinc-300 bg-white">
-                        {stat.number}
+                    <div className="bg-white">
+                      <span className="flex items-center justify-center w-3 h-3 text-[10px] font-mono text-zinc-800 border border-zinc-300 bg-black">
+                        <span className="w-1 h-1 rounded-full bg-white"></span>
                       </span>
                     </div>
                     
@@ -87,12 +87,12 @@ export const TechnologySection = () => {
               <div className="absolute top-0 left-1/2 w-[1px] h-2 bg-zinc-300 -translate-y-full" />
               <div className="absolute bottom-0 left-1/2 w-[1px] h-2 bg-zinc-300 translate-y-full" />
               
-              <div className="relative w-[85%] h-[85%] overflow-hidden">
+              <div className="relative w-full h-full overflow-hidden">
                 <Image
                   src="/engine-propulsion.png"
                   alt="Rotating Detonation Engine"
                   fill
-                  className="object-contain"
+                  className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 500px"
                 />
               </div>

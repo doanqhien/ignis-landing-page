@@ -24,10 +24,6 @@ export const HeroSection = () => {
 
       {/* Hero content */}
       <div className="relative z-10 w-full max-w-[1100px] mx-auto px-8 pt-16 pb-8 text-center">
-        {/* Small label */}
-        <p className="text-[9px] tracking-[0.25em] text-zinc-600 uppercase mb-2">
-          Hypersonic Flight
-        </p>
 
         {/* Main heading wrapper for positioning the tag */}
         <div className="relative inline-block text-center">
@@ -50,7 +46,7 @@ export const HeroSection = () => {
           <h1 
             className="text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
             style={{
-              background: "radial-gradient(circle at 60% 120%, #FFFFFF 50%, #58b1e3 70%)",
+              background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -59,7 +55,7 @@ export const HeroSection = () => {
             Pioneering the future <br /> of hypersonic flight
           </h1>
           {/* COMING SOON Floating Tag */}
-          <div className="absolute -top-2 md:-top-4 -right-24 md:-right-40 hidden sm:flex items-center gap-2">
+          {/* <div className="absolute -top-2 md:-top-4 -right-24 md:-right-40 hidden sm:flex items-center gap-2">
             <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="text-zinc-600 overflow-visible opacity-60">
               <path d="M0 30 L 10 30 L 10 10 L 40 10" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
               <path d="M0 30 L 4 27 L 4 33 Z" fill="currentColor" />
@@ -67,7 +63,7 @@ export const HeroSection = () => {
             <div className="-mt-5 border border-zinc-700/60 bg-zinc-900/40 px-3 py-1 text-[8px] tracking-[0.2em] text-white uppercase backdrop-blur-sm">
               Coming Soon
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Description */}
@@ -78,17 +74,14 @@ export const HeroSection = () => {
             next-generation scramjet and rotating detonation engine technology.
           </p>
           <div className="w-10 h-[1px] bg-zinc-800 mx-auto" />
-          <p className="text-[9px] tracking-[0.2em] text-zinc-400 uppercase leading-[2]">
-            Proudly born in Australia. <span className="text-zinc-600">Built for the world.</span>
-          </p>
         </div>
       </div>
 
       {/* Small concept image placeholder */}
       <div className="relative z-10 w-full max-w-[500px] mx-auto px-8 mb-6 mt-8">
-        <div className="w-full aspect-[3/1] bg-zinc-900/40 border border-zinc-800/30 rounded-sm overflow-hidden flex items-center justify-center">
+        <div className="w-full aspect-[3/1] border border-zinc-800/30 rounded-sm overflow-hidden flex items-center justify-center">
           <span className="text-[8px] tracking-[0.2em] text-zinc-700 uppercase">
-            Concept Render
+            SCROLL TO EXPLORE
           </span>
         </div>
       </div>
