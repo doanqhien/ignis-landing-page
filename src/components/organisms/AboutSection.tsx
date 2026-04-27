@@ -1,12 +1,48 @@
+"use client";
+
 import Image from "next/image";
 import EfficientIcon from "@/public/Efficient.png";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useRef } from "react";
 import ScalableIcon from "@/public/Scalable.png";
 import AffordableIcon from "@/public/Affordable.png";
 import { TextReveal } from "@/components/ui/text-reveal";
 import { FeatureCard } from "../molecules/FeatureCard";
 import { LightRays } from "@/components/ui/light-rays";
 
+const AnimatedCard = ({ 
+  feature, 
+  index, 
+  scrollYProgress 
+}: { 
+  feature: { title: string, description: string, icon: React.ReactNode }, 
+  index: number, 
+  scrollYProgress: MotionValue<number> 
+}) => {
+  const start = index * 0.2;
+  const end = Math.min(start + 0.5, 1);
+
+  const x = useTransform(scrollYProgress, [start, end], [700, 0]);
+  const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
+
+  return (
+    <motion.div style={{ x, opacity }}>
+      <FeatureCard
+        title={feature.title}
+        description={feature.description}
+        icon={feature.icon}
+      />
+    </motion.div>
+  );
+};
+
 export const AboutSection = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: gridRef,
+    offset: ["start 0.9", "center center"]
+  });
+
   const features = [
     {
       title: "EFFICIENT",
@@ -29,7 +65,7 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="relative py-24 bg-[#0a0a0c]">
+    <section id="about" className="relative py-24 bg-[#0a0a0c] overflow-hidden">
       <div className="max-w-[1100px] mx-auto px-8 md:px-16">
         <LightRays />
         {/* Section header */}
@@ -75,13 +111,13 @@ export const AboutSection = () => {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {features.map((feature, index) => (
-            <FeatureCard
+            <AnimatedCard
               key={index}
-              title={feature.title}
-              description={feature.description}
-              icon={feature.icon}
+              feature={feature}
+              index={index}
+              scrollYProgress={scrollYProgress}
             />
           ))}
         </div>
@@ -90,9 +126,12 @@ export const AboutSection = () => {
         <div className="mt-16 flex items-center justify-center">
           <a
             href="#solutions"
-            className="inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase px-5 py-4 rounded bg-zinc-800 hover:bg-zinc-800/80 hover:border-zinc-500 transition-all duration-300"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase px-5 py-4 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
-            Contact Us →
+            <span className="relative z-10">Contact Us →</span>
+            <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
+              <span className="w-0 h-0 bg-white rounded-full transition-all duration-500 ease-out group-hover:w-56 group-hover:h-56"></span>
+            </span>
           </a>
         </div>
       </div>

@@ -1,32 +1,101 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
+import { motion, useInView } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import RDRE from "@/public/engine-propulsion.png";
+import DIGITAL_TWIN from "@/public/IMG.png";
+import IOT_SENSOR from "@/public/Frame1.png";
+
+const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { margin: "-40% 0px -40% 0px" });
+
+  useEffect(() => {
+    if (isInView) {
+      setActiveCard(index);
+    }
+  }, [isInView, index, setActiveCard]);
+
+  return (
+    <motion.div 
+      ref={ref}
+      className="relative z-10 flex items-start gap-8 min-h-[160px]"
+      animate={{ 
+        opacity: index <= activeCard ? 1 : 0.2
+      }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Static gray line from this dot downwards */}
+      {index < 2 && (
+        <div 
+          className="absolute left-[10px] top-[20px] w-[1px] bg-zinc-200 z-0"
+          style={{ height: "calc(100% + 140px)" }}
+        />
+      )}
+
+      {/* Active Line from this dot downwards */}
+      <motion.div 
+        className="absolute left-[10px] top-[20px] w-[1px] bg-black origin-top z-0"
+        initial={{ height: 0 }}
+        animate={{ 
+          height: (index < 2 && activeCard > index) 
+            ? "calc(100% + 140px)" 
+            : "0px" 
+        }}
+        transition={{ duration: 0.5 }}
+      />
+
+      {/* Number block with white background to break the vertical line */}
+      <div className="bg-white relative z-10">
+        <span className={`flex items-center justify-center w-5 h-5 border border-zinc-300 transition-colors duration-500 ${index <= activeCard ? 'bg-black' : 'bg-white'}`}>
+          <span className={`w-1 h-1 rounded-full transition-colors duration-500 ${index <= activeCard ? 'bg-white' : 'bg-black'}`}></span>
+        </span>
+      </div>
+      
+      <div className="pt-1">
+        <h3 className="text-md font-medium tracking-[0.15em] text-zinc-900 uppercase mb-3">
+          {stat.title}
+        </h3>
+        <p className="text-md text-zinc-500 leading-[1.8] max-w-sm">
+          {stat.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
 
 export const TechnologySection = () => {
+  const [activeCard, setActiveCard] = useState(0);
+
   const stats = [
     {
       number: "01",
-      title: "RDRE (Rotating Detonation Rocket Engine)",
+      title: "RDRE (ROTATING DETONATION ROCKET ENGINE)",
       description:
         "Revolutionary patent-pending rotating detonation technology that provides higher efficiency and thrust density than conventional rocket engines.",
+      image: RDRE,
     },
     {
       number: "02",
-      title: "Digital Twin",
+      title: "DIGITAL TWIN",
       description:
-        "Advanced scramjet propulsion for sustained hypersonic flight at Mach 5+ speeds with breakthrough air-breathing engine design.",
+        "Real-time simulation and predictive control for faster development and optimized engine performance.",
+      image: DIGITAL_TWIN,
     },
     {
       number: "03",
-      title: "SMART FUEL SYSTEMS",
+      title: "IOT SENSORS",
       description:
-        "Intelligent fuel injection and management systems optimized for maximum performance across the entire flight envelope.",
+        "Advanced sensor network enabling continuous monitoring and intelligent engine management.",
+      image: IOT_SENSOR,
     },
   ];
 
   return (
     <section id="technology" className="relative bg-[#ffffff] py-24 md:py-32">
       <div className="max-w-[1200px] mx-auto px-8 md:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start relative">
           
           {/* Left - Content panel */}
           <div className="flex flex-col justify-center">
@@ -45,35 +114,22 @@ export const TechnologySection = () => {
             </h2>
 
             <div className="relative">
-              {/* Vertical line connecting the steps */}
-              <div className="absolute left-[13px] top-[10px] bottom-[40px] w-[1px] bg-zinc-200" />
-
-              <div className="space-y-24">
+              <div className="space-y-40 pb-20">
                 {stats.map((stat, index) => (
-                  <div key={stat.number} className="relative z-10 flex items-start gap-8">
-                    {/* Number block with white background to break the vertical line */}
-                    <div className="bg-white">
-                      <span className="flex items-center justify-center w-3 h-3 text-[10px] font-mono text-zinc-800 border border-zinc-300 bg-black">
-                        <span className="w-1 h-1 rounded-full bg-white"></span>
-                      </span>
-                    </div>
-                    
-                    <div className="pt-1">
-                      <h3 className="text-[10px] font-medium tracking-[0.15em] text-zinc-900 uppercase mb-3">
-                        {stat.title}
-                      </h3>
-                      <p className="text-[10px] text-zinc-500 leading-[1.8] max-w-sm">
-                        {stat.description}
-                      </p>
-                    </div>
-                  </div>
+                  <StatItem
+                    key={stat.number}
+                    stat={stat}
+                    index={index}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                  />
                 ))}
               </div>
             </div>
           </div>
 
           {/* Right - Engine Image Container */}
-          <div className="relative w-full flex items-center justify-center lg:justify-end">
+          <div className="lg:sticky lg:top-32 self-start w-full flex items-center justify-center lg:justify-end">
             <div className="relative w-full max-w-[500px] aspect-square bg-[#f8f8f8] flex items-center justify-center">
               
               {/* Decorative Corner Crosshairs/Brackets */}
@@ -88,13 +144,23 @@ export const TechnologySection = () => {
               <div className="absolute bottom-0 left-1/2 w-[1px] h-2 bg-zinc-300 translate-y-full" />
               
               <div className="relative w-full h-full overflow-hidden">
-                <Image
-                  src="/engine-propulsion.png"
-                  alt="Rotating Detonation Engine"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 500px"
-                />
+                {stats.map((stat, index) => (
+                  <motion.div
+                    key={stat.number}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: activeCard === index ? 1 : 0 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                  >
+                    <Image
+                      src={stat.image}
+                      alt={stat.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 500px"
+                    />
+                  </motion.div>
+                ))}
               </div>
             </div>
           </div>

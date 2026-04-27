@@ -3,7 +3,14 @@ import Image from "next/image";
 
 export const Navbar = () => {
   return (
-    <nav className="top-0 left-0 right-0 z-50 bg-[#0a0a0c]/80 backdrop-blur-md border-b border-white/[0.06] py-4">
+    <nav className="top-0 left-0 right-0 z-50 bg-[#0a0a0c]/80 backdrop-blur-md">
+      <div className="w-full bg-zinc-700/60">
+        <div className="max-w-[1400px] mx-auto px-8 md:px-16 flex items-center justify-between h-7">
+        <div className="text-[9px] tracking-[0.15em] text-white uppercase hover:text-white transition-colors duration-300 px-4"></div>
+        <div className="text-[9px] tracking-[0.15em] text-white uppercase hover:text-white transition-colors duration-300 px-4">COOMING SOON</div>
+        <div className="text-[9px] tracking-[0.15em] text-white uppercase hover:text-white transition-colors duration-300 px-4">contact us at admin@ignishypersonics.com</div>
+      </div>
+      </div>
       <div className="max-w-[1400px] mx-auto px-8 md:px-16 flex items-center justify-between h-14">
         <Image src={logo} alt="Logo" width={120} height={120} />
 

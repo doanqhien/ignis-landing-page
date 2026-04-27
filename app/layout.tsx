@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import localFont from 'next/font/local';
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+// font local
+const saans = localFont({
+  src: './fonts/SaansCollectionVF-TRIAL.woff2',
+  variable: '--font-saans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -31,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("relative h-full", "antialiased", inter.variable, "font-sans", geist.variable)}>
-      <body className="relative min-h-full flex flex-col font-[var(--font-inter)]">
+    <html lang="en" className={cn("relative h-full", saans.variable)}>
+      <body className="relative min-h-full flex flex-col font-saans antialiased">
         {children}
       </body>
     </html>

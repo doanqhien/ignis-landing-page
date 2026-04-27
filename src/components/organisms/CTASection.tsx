@@ -18,12 +18,15 @@ export const CTASection = () => {
               Whether you're advancing sovereign defence capabilities, accelerating access to space, or exploring next-generation hypersonic applications — we're ready to connect.
             </p>
 
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-[10px] tracking-[0.15em] text-zinc-300 uppercase px-6 py-4 rounded bg-black hover:bg-white/5 hover:text-white hover:border-zinc-500 transition-all duration-300"
-            >
-              Contact Us ↗
-            </a>
+          <a
+            href="#solutions"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase px-5 py-4 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
+          >
+            <span className="relative z-10">Contact Us →</span>
+            <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
+              <span className="w-0 h-0 bg-white rounded-full transition-all duration-500 ease-out group-hover:w-56 group-hover:h-56"></span>
+            </span>
+          </a>
           </div>
 
           {/* Right Column Content */}

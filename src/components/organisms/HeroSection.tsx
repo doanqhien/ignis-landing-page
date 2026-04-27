@@ -1,13 +1,19 @@
-import { TextReveal } from "@/components/ui/text-reveal"
+"use client";
+
 import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export const HeroSection = () => {
+  const { scrollY } = useScroll();
+  const width = useTransform(scrollY, [0, 400], ["33.33%", "100%"]);
+  const borderRadius = useTransform(scrollY, [0, 400], ["24px", "0px"]);
   return (
     <section
       id="hero"
       className="relative flex flex-col items-center overflow-clip bg-[#0a0a0c]"
       style={{ paddingTop: "56px" }}
     >
+
       {/* Background with subtle stars */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[8%] left-[12%] w-[1px] h-[1px] bg-white/20 rounded-full" />
@@ -23,10 +29,10 @@ export const HeroSection = () => {
       <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-[#7dd3fc]/5 blur-[100px] rounded-[100%] pointer-events-none z-0" />
 
       {/* Hero content */}
-      <div className="relative z-10 w-full max-w-[1100px] mx-auto px-8 pt-16 pb-8 text-center">
-
+      <div className="relative z-10 w-full max-w-[1100px] mx-auto px-8 pt-16 pb-0 text-center">
         {/* Main heading wrapper for positioning the tag */}
-        <div className="relative inline-block text-center">
+        <div className="relative inline-block text-center w-full max-w-[800px]">
+
           {/* <h1 className="text-[44px] md:text-[64px] lg:text-[80px] font-light leading-[1.05] tracking-[-0.02em] text-white">
             <span
               style={{
@@ -44,7 +50,7 @@ export const HeroSection = () => {
             of hypersonic flight
           </h1> */}
           <h1 
-            className="text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
+            className="relative z-10 text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
@@ -78,28 +84,31 @@ export const HeroSection = () => {
       </div>
 
       {/* Small concept image placeholder */}
-      <div className="relative z-10 w-full max-w-[500px] mx-auto px-8 mb-6 mt-8">
-        <div className="w-full aspect-[3/1] border border-zinc-800/30 rounded-sm overflow-hidden flex items-center justify-center">
-          <span className="text-[8px] tracking-[0.2em] text-zinc-700 uppercase">
+      <div className="relative z-10 w-full max-w-[500px] mx-auto px-8">
+        <div className="w-full aspect-[3/1] overflow-hidden flex items-center justify-center">
+          <span className="pl-48 text-[8px] tracking-[0.2em] text-zinc-600 uppercase">
             SCROLL TO EXPLORE
           </span>
         </div>
       </div>
 
       {/* Large hero aircraft image */}
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4">
-        <div className="relative w-full aspect-[2/1] overflow-hidden">
+      <div className="relative z-10 w-full flex justify-center">
+        <motion.div 
+          className="relative aspect-[2/1] overflow-hidden"
+          style={{ width, borderRadius }}
+        >
           <Image
             src="/hero-aircraft.png"
             alt="Hypersonic aircraft soaring above Earth"
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 1200px"
-            preload
+            priority
           />
           {/* Bottom fade to match next section */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
