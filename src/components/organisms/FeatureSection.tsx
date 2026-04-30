@@ -23,7 +23,7 @@ export const FeatureSection = () => {
 
   return (
     <section className="w-full max-w-6xl mx-auto flex flex-col items-center">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 w-full mb-16">
         {features.map((feature, index) => (
           <FeatureCard 
             key={index}

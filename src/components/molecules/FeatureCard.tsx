@@ -7,13 +7,13 @@ interface FeatureCardProps {
 
 export const FeatureCard = ({ title, description, icon }: FeatureCardProps) => {
   return (
-    <div className="group flex flex-col p-7 bg-zinc-900/20 border border-zinc-800/40 rounded-lg hover:bg-zinc-800/20 hover:border-zinc-700/40 transition-all duration-500">
-      <h3 className="text-[10px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-8 flex items-center gap-1.5">
+    <div className="group flex flex-col transition-all duration-500">
+      <h3 className="text-[10px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-2 flex items-center gap-1.5">
         {title}{" "}
-        <span className="w-1.5 h-1.5 bg-[#7dd3fc] rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+        <span className="w-1 h-1 bg-[#7dd3fc] shadow-[0_0_8px_rgba(59,130,246,0.6)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
       </h3>
-
-      <div className="flex-grow flex items-center justify-center mb-8 group-hover:scale-150 transition-transform duration-500">
+      <div className=" border-b border-zinc-400 border-dashed mb-3 opacity-40"></div>
+      <div className="flex-grow flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500">
         {icon}
       </div>
 

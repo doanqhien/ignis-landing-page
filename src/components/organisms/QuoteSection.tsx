@@ -1,25 +1,59 @@
+"use client";
+
 import { LightRays } from "@/components/ui/light-rays";
 import { TextReveal } from "@/components/ui/text-reveal";
+import { motion } from "framer-motion";
 
 export const QuoteSection = () => {
   return (
-    <section className="relative py-32 md:py-48 bg-[#0a0a0c] flex items-center justify-center">
+    <section className="relative py-32 bg-transparent flex items-center justify-center">
       <LightRays />
-      {/* Decorative crosshairs on left and right */}
-      <div className="absolute left-[5%] md:left-[10%] top-1/2 -translate-y-1/2 opacity-30">
-        <div className="relative w-3 h-3 flex items-center justify-center">
-          <div className="absolute w-full h-[1px] bg-white" />
-          <div className="absolute h-full w-[1px] bg-white" />
-        </div>
-      </div>
-      <div className="absolute right-[5%] md:right-[10%] top-1/2 -translate-y-1/2 opacity-30">
-        <div className="relative w-3 h-3 flex items-center justify-center">
-          <div className="absolute w-full h-[1px] bg-white" />
-          <div className="absolute h-full w-[1px] bg-white" />
-        </div>
-      </div>
+      {/* Dots on left and right */}
+      <motion.div 
+        className="absolute left-[5%] md:left-[10%] top-[30%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+      />
+      <motion.div 
+        className="absolute left-[15%] md:left-[12.5%] top-[50%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+      />
+      <motion.div 
+        className="absolute left-[30%] md:left-[10%] top-[70%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      />
 
-      <div className="max-w-[900px] mx-auto px-8 text-center relative">
+      <motion.div 
+        className="absolute right-[5%] md:right-[10%] top-[30%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+      />
+      <motion.div 
+        className="absolute right-[15%] md:right-[12.5%] top-[50%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+      />
+      <motion.div 
+        className="absolute right-[30%] md:right-[10%] top-[70%] w-[5px] h-[5px] bg-white"
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      />
+
+      <div className="max-w-2/3 mx-auto truncate relative">
         {/* <h2 className="text-[28px] md:text-[42px] lg:text-[48px] font-light leading-[1.3] tracking-[-0.01em] text-zinc-400">
           <span
             style={{

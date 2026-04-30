@@ -17,12 +17,9 @@ export interface TextRevealProps extends ComponentPropsWithoutRef<"div"> {
 export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   const sectionRef = useRef<HTMLDivElement | null>(null)
   
-  // Adjust offset to reveal over a more visible range
-  // "start 85%" -> starts revealing when the top of element is 85% down the viewport
-  // "end 15%" -> finishes revealing when the bottom of element is 15% from the top
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 65%", "end 65%"],
+    offset: ["start 90%", "end 45%"],
   })
 
   if (typeof children !== "string") {
@@ -30,48 +27,62 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   }
 
   const words = children.split(" ")
+  const totalChars = children.length
+  let charIndex = 0
 
   return (
     <div ref={sectionRef} className={cn("relative z-0 min-h-[20vh]", className)}>
-      <div className="bg-transparent">
-        <span
+      <div className="bg-transparent relative">
+        <div
           className={
-            "flex flex-wrap justify-center text-[32px] md:text-[48px] lg:text-[56px] leading-[1.05] tracking-[-0.02em] text-white pt-10"
+            "relative z-0 flex flex-wrap justify-center text-[28px] md:text-[38px] lg:text-[46px] leading-[1.1] tracking-[-0.02em] pt-10 pb-4"
           }
+          style={{ 
+            backgroundImage: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent"
+          }}
         > 
           {words.map((word, i) => {
-            const start = i / words.length
-            const end = start + 1 / words.length
-            return (
-              <Word key={i} progress={scrollYProgress} range={[start, end]}>
-                {word}
-              </Word>
+            const chars = word.split("")
+            const wordElement = (
+              <span key={i} className="inline-block mx-1 md:mx-1.5 whitespace-nowrap">
+                {chars.map((char, j) => {
+                  const start = charIndex / totalChars
+                  const end = start + 1 / totalChars
+                  charIndex++
+                  return (
+                    <Char key={j} progress={scrollYProgress} range={[start, end]}>
+                      {char}
+                    </Char>
+                  )
+                })}
+              </span>
             )
+            charIndex++ // Add 1 for the space between words
+            return wordElement
           })}
-        </span>
+        </div>
       </div>
     </div>
   )
 }
 
-interface WordProps {
+interface CharProps {
   children: ReactNode
   progress: MotionValue<number>
   range: [number, number]
 }
 
-const Word: FC<WordProps> = ({ children, progress, range }) => {
-  const opacity = useTransform(progress, range, [0, 1])
-  const blur = useTransform(progress, range, [5, 0])
+const Char: FC<CharProps> = ({ children, progress, range }) => {
+  const opacity = useTransform(progress, range, [0.15, 1])
   return (
-    <span className="xl:lg-3 relative mx-1 lg:mx-1.5">
-      <span className="absolute opacity-30">{children}</span>
-      <motion.span
-        style={{ opacity: opacity, filter: `blur(${blur}px)` }}
-        className={"bg-[linear-gradient(180deg,#58b1e3_40%,#b2dbf2_70%,#ffffff_90%)] bg-clip-text text-transparent"}
-      >
-        {children}
-      </motion.span>
-    </span>
+    <motion.span
+      style={{ opacity }}
+      className="inline-block"
+    >
+      {children}
+    </motion.span>
   )
 }

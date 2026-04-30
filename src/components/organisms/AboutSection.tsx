@@ -2,31 +2,33 @@
 
 import Image from "next/image";
 import EfficientIcon from "@/public/Efficient.png";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import ScalableIcon from "@/public/Scalable.png";
 import AffordableIcon from "@/public/Affordable.png";
 import { TextReveal } from "@/components/ui/text-reveal";
 import { FeatureCard } from "../molecules/FeatureCard";
 import { LightRays } from "@/components/ui/light-rays";
+import AustraliaIcon from "@/public/australia.png";
+import { ArrowUpRight } from "lucide-react";
 
 const AnimatedCard = ({ 
   feature, 
   index, 
-  scrollYProgress 
 }: { 
   feature: { title: string, description: string, icon: React.ReactNode }, 
-  index: number, 
-  scrollYProgress: MotionValue<number> 
+  index: number 
 }) => {
-  const start = index * 0.2;
-  const end = Math.min(start + 0.5, 1);
-
-  const x = useTransform(scrollYProgress, [start, end], [700, 0]);
-  const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
-
   return (
-    <motion.div style={{ x, opacity }}>
+    <motion.div
+      initial={{ x: 200, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ 
+        duration: 0.8, 
+        delay: 0.3 + index * 0.2, 
+        ease: "easeOut"
+      }}
+    >
       <FeatureCard
         title={feature.title}
         description={feature.description}
@@ -37,11 +39,6 @@ const AnimatedCard = ({
 };
 
 export const AboutSection = () => {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: gridRef,
-    offset: ["start 0.9", "center center"]
-  });
 
   const features = [
     {
@@ -65,28 +62,35 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="relative py-24 bg-[#0a0a0c] overflow-hidden">
-      <div className="max-w-[1100px] mx-auto px-8 md:px-16">
+    <section id="about" className="relative pt-40 pb-20 bg-[#0a0a0c] overflow-hidden">
+      <div className="mx-auto px-8 md:px-20">
         <LightRays />
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className="max-w-2/3 mx-auto text-center mb-16">
           {/* HIGH PERFORMANCE subtitle */}
-          <p className="text-[9px] tracking-[0.25em] text-zinc-500 uppercase mb-6 flex items-center justify-center gap-2">
-            High Performance
-          </p>
-
+          <div className="flex items-center gap-2 justify-center">
+            <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-500"></div>
+            <p className="text-[8px] tracking-[0.05rem] text-zinc-500 uppercase flex items-center justify-center">
+              High Performance
+            </p>
+            <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-500"></div>
+          </div>
           {/* Mission text wrapper for tag positioning */}
-          <div className="relative inline-block mt-2">
-            
+          <div className="relative">
             {/* BORN IN AUSTRALIA Floating Tag */}
-            <div className="absolute top-0 -left-2 xl:-left-4 hidden lg:flex items-center gap-0 opacity-90">
-              <div className="-mt-4 border border-zinc-700/60 bg-zinc-900/60 px-3 py-1.5 flex items-center gap-2 text-[8px] tracking-[0.2em] text-zinc-300 uppercase backdrop-blur-sm z-10 rounded-sm">
-                 Born in
+            <div className="absolute top-[5%] -left-[5%] xl:-left-[15%] hidden lg:flex flex-col items-start opacity-90">
+              <div className="relative bg-[#1c1c1e] py-3 px-4 flex items-center gap-3 text-[9px] tracking-[0.2em] text-zinc-200 uppercase backdrop-blur-md z-10 rounded-sm shadow-xl">
+                 BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover"/>
+                 
+                 {/* Connecting line dropping from the bottom of the tag */}
+                 <svg width="70" height="100" viewBox="0 0 70 100" fill="none" className="absolute top-full left-[45%] text-zinc-400 overflow-visible pointer-events-none">
+                    <path d="M 0 0 L 20 80 L 50 80" stroke="currentColor" strokeWidth="1" />
+                    {/* Square marker (outer border) */}
+                    <path d="M 44 74 h 12 v 12 h -12 Z" stroke="currentColor" strokeWidth="1" fill="transparent" className="transition-colors duration-500" />
+                    {/* Square marker (inner white square) */}
+                    <path d="M 48 78 h 4 v 4 h -4 Z" fill="white" className="transition-colors duration-500" />
+                 </svg>
               </div>
-              <svg width="40" height="30" viewBox="0 0 40 30" fill="none" className="text-zinc-500 overflow-visible -ml-1">
-                <path d="M0 10 L 20 10 L 20 25 L 40 25" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
-                <path d="M40 25 L 35 22 L 35 28 Z" fill="currentColor" />
-              </svg>
             </div>
 
             {/* <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-light leading-[1.2] tracking-[-0.01em]">
@@ -111,26 +115,27 @@ export const AboutSection = () => {
         </div>
 
         {/* Feature cards */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 px-8">
           {features.map((feature, index) => (
             <AnimatedCard
               key={index}
               feature={feature}
               index={index}
-              scrollYProgress={scrollYProgress}
             />
           ))}
         </div>
 
         {/* Contact Us button below cards */}
-        <div className="mt-16 flex items-center justify-center">
+        <div className="mt-20 flex items-center justify-center">
           <a
             href="#solutions"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-2 text-[10px] tracking-[0.15em] text-white uppercase px-5 py-4 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-2 text-[9px] tracking-[0.1em] text-white uppercase p-3 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
-            <span className="relative z-10">Contact Us →</span>
+            <span className="relative z-10 flex items-center gap-2">
+              Contact Us <ArrowUpRight size={15} strokeWidth={2.5} />
+            </span>
             <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
-              <span className="w-0 h-0 bg-white rounded-full transition-all duration-500 ease-out group-hover:w-56 group-hover:h-56"></span>
+              <span className="w-0 h-0 bg-white rounded-full transition-all duration-600 ease-out group-hover:w-56 group-hover:h-56"></span>
             </span>
           </a>
         </div>
