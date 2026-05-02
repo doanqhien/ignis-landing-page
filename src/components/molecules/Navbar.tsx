@@ -143,7 +143,7 @@ export const Navbar = () => {
             exit="exit"
           >
             {/* Menu Content */}
-            <div className=" flex flex-col items-center justify-center gap-8 px-6 py-8 min-h-max">
+            <div className=" flex flex-col items-center justify-center gap-4 px-6 py-8 min-h-max">
               
               {/* Section 1 */}
               <motion.div variants={itemVariants} className="flex flex-col items-center text-center">
