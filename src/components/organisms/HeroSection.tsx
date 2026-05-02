@@ -1,18 +1,75 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import BackGroundLines from "@/public/background.png"
-import SplitText from "@/components/ui/split-text";
+import { ArrowDown } from "lucide-react";
 
 export const HeroSection = () => {
   const { scrollY } = useScroll();
-  const width = useTransform(scrollY, [0, 400], ["33.33%", "100%"]);
+  const width = useTransform(scrollY, [0, 600], ["33.33%", "100%"]);
+
+  // Custom cursor state
+  const [isHovered, setIsHovered] = useState(false);
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  const springConfig = { damping: 25, stiffness: 300 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+  
+  // Parallax transforms for dots (moving outwards to leave the screen)
+  const xDotL1 = useTransform(scrollY, [0, 1000], ["0vw", "-50vw"]);
+  const yDotL1 = useTransform(scrollY, [0, 1000], ["0vh", "-20vh"]);
+
+  const xDotL2 = useTransform(scrollY, [0, 1000], ["0vw", "-60vw"]);
+  const yDotL2 = useTransform(scrollY, [0, 1000], ["0vh", "-10vh"]);
+
+  const xDotL3 = useTransform(scrollY, [0, 1000], ["0vw", "-50vw"]);
+  const yDotL3 = useTransform(scrollY, [0, 1000], ["0vh", "20vh"]);
+
+  const xDotR1 = useTransform(scrollY, [0, 1000], ["0vw", "50vw"]);
+  const yDotR1 = useTransform(scrollY, [0, 1000], ["0vh", "-20vh"]);
+
+  const xDotR2 = useTransform(scrollY, [0, 1000], ["0vw", "60vw"]);
+  const yDotR2 = useTransform(scrollY, [0, 1000], ["0vh", "-10vh"]);
+
+  const xDotR3 = useTransform(scrollY, [0, 1000], ["0vw", "50vw"]);
+  const yDotR3 = useTransform(scrollY, [0, 1000], ["0vh", "20vh"]);
+
+  const scaleDots = useTransform(scrollY, [0, 1000], [1, 5]);
+
+  const yImage = useTransform(scrollY, [0, 1000], [0, 100]);
+
   return (
     <section
       id="hero"
-      className="w-full relative flex flex-col items-center overflow-clip pt-32"
+      className="w-full relative flex flex-col items-center overflow-clip pt-20 md:pt-32"
+      onMouseMove={(e) => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Custom Cursor */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-50 flex items-center justify-center text-[9px] tracking-[0.2em] text-white uppercase"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: "-50%",
+          translateY: "-50%",
+          opacity: isHovered ? 1 : 0,
+          scale: isHovered ? 1 : 0.8,
+        }}
+        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.3 } }}
+      >
+        <div className="bg-black/25 backdrop-blur-xl px-2 py-1 text-zinc-400 rounded-md text-[8px]">
+          Scroll to explore <ArrowDown className="w-2.5 h-2.5 inline-block" />
+        </div>
+      </motion.div>
 
       {/* Background image */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -24,51 +81,57 @@ export const HeroSection = () => {
           className="object-cover"
         />
       </div>
-            <motion.div 
+      <motion.div 
         className="absolute left-[5%] md:left-[10%] top-[35%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+        style={{ x: xDotL1, y: yDotL1, scale: scaleDots }}
       />
       <motion.div 
         className="absolute left-[15%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+        style={{ x: xDotL2, y: yDotL2, scale: scaleDots }}
       />
       <motion.div 
         className="absolute left-[30%] md:left-[10%] top-[75%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+        style={{ x: xDotL3, y: yDotL3, scale: scaleDots }}
       />
 
       <motion.div 
         className="absolute right-[5%] md:right-[10%] top-[35%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+        style={{ x: xDotR1, y: yDotR1, scale: scaleDots }}
       />
       <motion.div 
         className="absolute right-[15%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+        style={{ x: xDotR2, y: yDotR2, scale: scaleDots }}
       />
       <motion.div 
         className="absolute right-[30%] md:right-[10%] top-[75%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+        style={{ x: xDotR3, y: yDotR3, scale: scaleDots }}
       />
       {/* Hero content */}
-      <div className="relative z-10 w-full mx-auto px-8 pt-16 pb-0 text-center">
+      <div className="relative w-full mx-auto px-4 md:px-8 pt-8 md:pt-16 pb-0 text-center">
         {/* Main heading wrapper for positioning the tag */}
         <div className="relative inline-block text-center w-full max-w-[800px]">
 
@@ -89,7 +152,7 @@ export const HeroSection = () => {
             of hypersonic flight
           </h1> */}
           <h1 
-            className="relative z-10 text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
+            className="relative text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
@@ -112,9 +175,11 @@ export const HeroSection = () => {
         </div>
 
         {/* Description */}
-        <div className="w-full flex pt-10 md:pt-12 space-y-4 mx-auto justify-center align-center gap-x-6">
+        <div className="w-full flex pt-8 md:pt-16 justify-center items-center gap-x-3 md:gap-x-6 px-2 md:px-0">
           <div className="h-10 w-2 pl-2 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
-          <p className="whitespace-nowrap text-[9px] tracking-[0.2em] text-zinc-500 uppercase leading-[1.75]">
+          <p 
+            className="whitespace-nowrap text-[8px] md:text-[9px] tracking-[0.15em] md:tracking-[0.2em] text-zinc-500 uppercase leading-[1.75] text-center"
+          >
             Bringing the world closer in seconds with pioneering
             <br />
             next-generation scramjet and rotating detonation engine technology.
@@ -151,10 +216,10 @@ export const HeroSection = () => {
       <div className="absolute -bottom-[10%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-[#7dd3fc]/5 blur-[100px] rounded-[100%] pointer-events-none z-0" />
       
       {/* Large hero aircraft image */}
-      <div className="relative z-10 w-full flex justify-center pt-12">
+      <div className="relative z-1 w-full flex justify-center pt-24">
         <motion.div 
           className="relative aspect-[2/1] overflow-visible"
-          style={{ width }}
+          style={{ width, y: yImage }}
         >
           <div className="absolute inset-0 overflow-hidden">
             <Image

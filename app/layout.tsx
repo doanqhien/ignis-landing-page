@@ -5,9 +5,10 @@ import localFont from 'next/font/local';
 
 // font local
 const saans = localFont({
-  src: './fonts/SaansCollectionVF-TRIAL.woff2',
+  src: './fonts/SaansCollectionVF-TRIAL.ttf',
   variable: '--font-saans',
   display: 'swap',
+  weight: '100 900',
 });
 
 export const metadata: Metadata = {

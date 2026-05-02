@@ -94,12 +94,12 @@ export const TechnologySection = () => {
   ];
 
   return (
-    <section id="technology" className="relative bg-[#ffffff] pt-4 md:pt-8">
-      <div className="max-w-[1200px] mx-auto px-8 md:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start relative">
+    <section className="relative bg-[#ffffff] pt-4 md:pt-8">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24 items-start relative">
           
           {/* Left - Content panel */}
-          <div className="flex flex-col justify-center pt-24">
+          <div className="flex flex-col justify-center pt-12 md:pt-24 order-2 lg:order-1">
             {/* Section label */}
             <div className="flex items-center gap-2 mb-4">
               <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
@@ -109,14 +109,14 @@ export const TechnologySection = () => {
               <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
             </div>
 
-            <h2 className="text-[28px] md:text-4xl leading-[1.2] tracking-[-0.01em] text-[#1a1a1c] mb-16">
+            <h2 className="text-[24px] md:text-4xl leading-[1.2] tracking-[-0.01em] text-[#1a1a1c] mb-10 md:mb-16">
               Our solutions deliver
               <br />
               outstanding reliability
             </h2>
 
-            <div className="relative">
-              <div className="space-y-28 pb-[20vh]">
+            <div id="technology" className="relative">
+              <div className="space-y-16 md:space-y-28 pb-[10vh] md:pb-[20vh]">
                 {stats.map((stat, index) => (
                   <StatItem
                     key={stat.number}
@@ -131,7 +131,7 @@ export const TechnologySection = () => {
           </div>
 
           {/* Right - Engine Image Container */}
-          <div className="lg:sticky lg:top-0 lg:h-screen self-start w-full flex items-center justify-center lg:justify-end">
+          <div className="lg:sticky lg:top-0 lg:h-screen self-start w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
             <div className="relative w-full max-w-[500px] aspect-square bg-[#f8f8f8] flex items-center justify-center">
               
               {/* Decorative Corner Crosshairs/Brackets */}

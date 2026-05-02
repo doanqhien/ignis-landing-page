@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export const QuoteSection = () => {
   return (
-    <section className="relative py-32 bg-transparent flex items-center justify-center">
+    <section className="relative py-16 md:py-32 bg-transparent flex items-center justify-center">
       <LightRays />
       {/* Dots on left and right */}
       <motion.div 
@@ -53,7 +53,7 @@ export const QuoteSection = () => {
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
       />
 
-      <div className="max-w-2/3 mx-auto truncate relative">
+      <div className="max-w-[90%] md:max-w-2/3 mx-auto relative">
         {/* <h2 className="text-[28px] md:text-[42px] lg:text-[48px] font-light leading-[1.3] tracking-[-0.01em] text-zinc-400">
           <span
             style={{

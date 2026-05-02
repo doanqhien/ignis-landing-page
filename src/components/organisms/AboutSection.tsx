@@ -62,8 +62,8 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="relative pt-40 pb-20 bg-[#0a0a0c] overflow-hidden">
-      <div className="mx-auto px-8 md:px-20">
+    <section id="about" className="relative pt-20 md:pt-40 pb-12 md:pb-20 bg-[#0a0a0c] overflow-hidden">
+      <div className="mx-auto px-4 md:px-8 lg:px-20">
         <LightRays />
         {/* Section header */}
         <div className="max-w-2/3 mx-auto text-center mb-16">
@@ -79,7 +79,7 @@ export const AboutSection = () => {
           <div className="relative">
             {/* BORN IN AUSTRALIA Floating Tag */}
             <div className="absolute top-[5%] -left-[5%] xl:-left-[15%] hidden lg:flex flex-col items-start opacity-90">
-              <div className="relative bg-[#1c1c1e] py-3 px-4 flex items-center gap-3 text-[9px] tracking-[0.2em] text-zinc-200 uppercase backdrop-blur-md z-10 rounded-sm shadow-xl">
+              <div className="relative bg-[#1c1c1e] py-3 px-4 flex items-center gap-2 text-[9px] tracking-[0.1rem] text-zinc-200 uppercase backdrop-blur-md z-10 rounded-sm shadow-xl">
                  BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover"/>
                  
                  {/* Connecting line dropping from the bottom of the tag */}
@@ -115,7 +115,7 @@ export const AboutSection = () => {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5 px-2 md:px-8">
           {features.map((feature, index) => (
             <AnimatedCard
               key={index}
@@ -126,12 +126,12 @@ export const AboutSection = () => {
         </div>
 
         {/* Contact Us button below cards */}
-        <div className="mt-20 flex items-center justify-center">
+        <div className="mt-12 md:mt-20 flex items-center justify-center">
           <a
-            href="#solutions"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-2 text-[9px] tracking-[0.1em] text-white uppercase p-3 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
+            href="mailto:admin@ignishypersonics.com"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] tracking-[0.1em] text-white uppercase py-3 px-4 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center gap-1">
               Contact Us <ArrowUpRight size={15} strokeWidth={2.5} />
             </span>
             <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">

@@ -6,13 +6,13 @@ import { ArrowUpRight } from "lucide-react";
 export const CTASection = () => {
   return (
     <section id="solutions" className="relative background-transparent border-y border-zinc-700">
-      <div className="max-w-2/3 mx-auto">
+      <div className="max-w-[95%] md:max-w-2/3 mx-auto">
         {/* CTA Card matching the dark, left-aligned design with right-aligned logo */}
         <div className="bg-zinc-900 border-x border-zinc-700 grid grid-cols-1 md:grid-cols-3 items-stretch">
           
           {/* Left Column Content */}
-          <div className="md:col-span-2 flex flex-col items-start text-left border-r border-zinc-700 pl-20 py-14">
-            <h2 className="text-[24px] md:text-[32px] font-light text-white tracking-[-0.01em] mb-4">
+          <div className="md:col-span-2 flex flex-col items-start text-left border-r-0 md:border-r border-zinc-700 px-6 md:pl-20 py-10 md:py-14">
+            <h2 className="text-[20px] md:text-[32px] font-light text-white tracking-[-0.01em] mb-4">
               Ready to ignite?
             </h2>
 
@@ -31,10 +31,10 @@ export const CTASection = () => {
             />
 
           <a
-            href="#solutions"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] tracking-[0.1em] text-white uppercase p-3 rounded bg-black hover:bg-zinc-500 hover:text-black transition-all duration-500"
+            href="mailto:admin@ignishypersonics.com"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] tracking-[0.1em] text-white uppercase py-3 px-4 rounded bg-black hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center gap-1">
               Contact Us <ArrowUpRight size={15} strokeWidth={2.5} />
             </span>
             <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">

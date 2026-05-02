@@ -19,9 +19,9 @@ export const Footer = () => {
       <div className="bg-transparent relative z-10">
         <QuoteSection />
         <CTASection />
-        <div className="w-full max-w-2/3 mx-auto px-[1.5%] py-[.5%] border border-zinc-700">
+        <div className="w-full max-w-[95%] md:max-w-2/3 mx-auto px-4 md:px-[1.5%] py-4 md:py-[.5%] border border-zinc-700">
           {/* Top row - Logo + Links */}
-          <div className="flex flex-col md:flex-row items-start justify-between mb-16">
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4 mb-8 md:mb-16">
             <div className="flex items-center gap-8">
               <span
                 className="text-[8px] text-zinc-400 transition-colors duration-300 tracking-[0.15em] uppercase"
