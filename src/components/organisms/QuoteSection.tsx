@@ -10,21 +10,21 @@ export const QuoteSection = () => {
       <LightRays />
       {/* Dots on left and right */}
       <motion.div 
-        className="absolute left-[5%] md:left-[10%] top-[30%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[4%] md:left-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
       />
       <motion.div 
-        className="absolute left-[15%] md:left-[12.5%] top-[50%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[6%] md:left-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
       />
       <motion.div 
-        className="absolute left-[30%] md:left-[10%] top-[70%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[4%] md:left-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
@@ -32,21 +32,21 @@ export const QuoteSection = () => {
       />
 
       <motion.div 
-        className="absolute right-[5%] md:right-[10%] top-[30%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[4%] md:right-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
       />
       <motion.div 
-        className="absolute right-[15%] md:right-[12.5%] top-[50%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[6%] md:right-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
       />
       <motion.div 
-        className="absolute right-[30%] md:right-[10%] top-[70%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[4%] md:right-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}

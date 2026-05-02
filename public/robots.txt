@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+User-agent: facebookexternalhit
+Allow: /
+Sitemap: https://ignis-6jn.pages.dev/sitemap.xml

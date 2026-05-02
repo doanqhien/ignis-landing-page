@@ -40,11 +40,13 @@ export const HeroSection = () => {
   const scaleDots = useTransform(scrollY, [0, 1000], [1, 5]);
 
   const yImage = useTransform(scrollY, [0, 1000], [0, 100]);
+  const yMobile = useTransform(scrollY, [0, 400], [0, 160]);
+  const widthMobile = useTransform(scrollY, [0, 400], ["33.33%", "100%"]);
 
   return (
     <section
       id="hero"
-      className="w-full relative flex flex-col items-center overflow-clip pt-20 md:pt-32"
+      className="w-full relative flex flex-col items-center overflow-clip pb-40 pt-28 md:pt-32 md:pb-0"
       onMouseMove={(e) => {
         cursorX.set(e.clientX);
         cursorY.set(e.clientY);
@@ -54,7 +56,7 @@ export const HeroSection = () => {
     >
       {/* Custom Cursor */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-50 flex items-center justify-center text-[9px] tracking-[0.2em] text-white uppercase"
+        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-50 items-center justify-center text-[9px] tracking-[0.2em] text-white uppercase"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -65,7 +67,7 @@ export const HeroSection = () => {
         }}
         transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.3 } }}
       >
-        <div className="bg-black/25 backdrop-blur-xl px-2 py-1 text-zinc-400 rounded-md text-[8px]">
+        <div className="bg-black/25 backdrop-blur-xl px-3 py-2 text-zinc-400 rounded-md text-[8px]">
           Scroll to explore
         </div>
       </motion.div>
@@ -81,7 +83,7 @@ export const HeroSection = () => {
         />
       </div>
       <motion.div 
-        className="absolute left-[5%] md:left-[10%] top-[35%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[4%] md:left-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -89,7 +91,7 @@ export const HeroSection = () => {
         style={{ x: xDotL1, y: yDotL1, scale: scaleDots }}
       />
       <motion.div 
-        className="absolute left-[15%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -97,7 +99,7 @@ export const HeroSection = () => {
         style={{ x: xDotL2, y: yDotL2, scale: scaleDots }}
       />
       <motion.div 
-        className="absolute left-[30%] md:left-[10%] top-[75%] w-[5px] h-[5px] bg-white"
+        className="absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -106,7 +108,7 @@ export const HeroSection = () => {
       />
 
       <motion.div 
-        className="absolute right-[5%] md:right-[10%] top-[35%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[4%] md:right-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -114,7 +116,7 @@ export const HeroSection = () => {
         style={{ x: xDotR1, y: yDotR1, scale: scaleDots }}
       />
       <motion.div 
-        className="absolute right-[15%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -122,7 +124,7 @@ export const HeroSection = () => {
         style={{ x: xDotR2, y: yDotR2, scale: scaleDots }}
       />
       <motion.div 
-        className="absolute right-[30%] md:right-[10%] top-[75%] w-[5px] h-[5px] bg-white"
+        className="absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -174,13 +176,14 @@ export const HeroSection = () => {
         </div>
 
         {/* Description */}
-        <div className="w-full flex pt-8 md:pt-16 justify-center items-center gap-x-3 md:gap-x-6 px-2 md:px-0">
-          <div className="h-10 w-2 pl-2 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
+        <div className="w-full flex pt-8 md:pt-16 justify-center items-center gap-x-3 md:gap-x-6 px-4 md:px-0">
+          <div className="h-16 md:h-10 w-2 pl-2 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
           <p 
-            className="whitespace-nowrap text-[8px] md:text-[9px] tracking-[0.15em] md:tracking-[0.2em] text-zinc-500 uppercase leading-[1.75] text-center"
+            className="saans-mono whitespace-normal md:whitespace-nowrap text-[10px] md:text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.75] text-center max-w-[260px] md:max-w-none"
           >
             Bringing the world closer in seconds with pioneering
-            <br />
+            <br className="hidden md:block" />
+            <span className="md:hidden"> </span>
             next-generation scramjet and rotating detonation engine technology.
           </p>
           {/* <div className="flex flex-col max-w-[35%] ">
@@ -197,27 +200,44 @@ export const HeroSection = () => {
               rootMargin="-100px"
             />
           </div> */}
-          <div className="h-10 w-2 pr-2 border-r-[.5px] border-y-[.5px] border-zinc-500"></div>
+          <div className="h-16 md:h-10 w-2 pr-2 border-r-[.5px] border-y-[.5px] border-zinc-500"></div>
         </div>
       </div>
-            
-      {/* Small concept image placeholder */}
-      {/* <div className="relative z-10 w-full max-w-[500px] mx-auto px-8">
-        <div className="w-full aspect-[3/1] overflow-hidden flex items-center justify-center">
-          <span className="pl-48 text-[8px] tracking-[0.2em] text-zinc-600 uppercase">
-            SCROLL TO EXPLORE
-          </span>
-        </div>
-      </div> */}
 
       {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
       <div className="absolute -bottom-[15%] left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[400px] bg-[#3b82f6]/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
       <div className="absolute -bottom-[10%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-[#7dd3fc]/5 blur-[100px] rounded-[100%] pointer-events-none z-0" />
       
       {/* Large hero aircraft image */}
-      <div className="relative z-1 w-full flex justify-center pt-24">
+      <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
+        
+        {/* Mobile image without sticky track */}
+        <div className="w-full flex justify-center md:hidden">
+          <motion.div 
+            className="relative aspect-[2/1] overflow-visible min-w-[230px] z-10 mx-auto"
+            style={{ width: widthMobile, y: yMobile }}
+          >
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src="/hero.png"
+                alt="Hypersonic aircraft soaring above Earth"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
+            </div>
+            <div className="absolute top-0 left-0 w-1 h-3  bg-white -translate-x-1 -translate-y-3" />
+            <div className="absolute top-0 right-0 w-1 h-3 bg-white translate-x-1 -translate-y-3" />
+            <div className="absolute bottom-0 left-0 w-1 h-3  bg-white -translate-x-1 translate-y-3" />
+            <div className="absolute bottom-0 right-0 w-1 h-3 bg-white translate-x-1 translate-y-3" />
+          </motion.div>
+        </div>
+
+        {/* Desktop normal scrolling image (untouched) */}
         <motion.div 
-          className="relative aspect-[2/1] overflow-visible"
+          className="relative aspect-[2/1] overflow-visible min-w-[230px] md:min-w-0 hidden md:block"
           style={{ width, y: yImage }}
         >
           <div className="absolute inset-0 overflow-hidden">
@@ -238,7 +258,7 @@ export const HeroSection = () => {
           <div className="absolute bottom-0 left-0 w-1 h-3  bg-white -translate-x-1 translate-y-3" />
           <div className="absolute bottom-0 right-0 w-1 h-3 bg-white translate-x-1 translate-y-3" />
         </motion.div>
-                    
+
       </div>
     </section>
   );
