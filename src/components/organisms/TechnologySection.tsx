@@ -36,7 +36,7 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
 
       {/* Active Line from this dot downwards */}
       <motion.div 
-        className="absolute left-[10px] top-[20px] w-[2px] bg-black origin-top z-0"
+        className="absolute left-[10px] top-[20px] w-[2px] bg-black origin-top"
         initial={{ height: 0 }}
         animate={{ 
           height: (index < 2 && activeCard > index) 
@@ -47,8 +47,8 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
       />
 
       {/* Number block with white background to break the vertical line */}
-      <div className="bg-white relative z-10 mt-[10px]">
-        <span className={`flex items-center justify-center w-5 h-5 transition-colors duration-500 ${index <= activeCard ? 'bg-black' : 'bg-white'}`}>
+      <div className="bg-white relative mt-[10px]">
+        <span className={`flex items-center justify-center w-5 h-5 transition-colors duration-500 border-[.5px] border-zinc-500 ${index <= activeCard ? 'bg-black' : 'bg-white'}`}>
           <span className={`w-1 h-1 transition-colors duration-500 ${index <= activeCard ? 'bg-white' : 'bg-black'}`}></span>
         </span>
       </div>

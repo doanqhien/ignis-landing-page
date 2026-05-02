@@ -13,7 +13,7 @@ export const FeatureCard = ({ title, description, icon }: FeatureCardProps) => {
         <span className="w-1 h-1 bg-[#7dd3fc] shadow-[0_0_8px_rgba(59,130,246,0.6)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
       </h3>
       <div className=" border-b border-zinc-400 border-dashed mb-3 opacity-40"></div>
-      <div className="flex-grow flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500">
+      <div className="flex-grow flex items-center justify-center mb-3">
         {icon}
       </div>
 

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import BackGroundLines from "@/public/background.png"
-import { ArrowDown } from "lucide-react";
 
 export const HeroSection = () => {
   const { scrollY } = useScroll();
@@ -67,7 +66,7 @@ export const HeroSection = () => {
         transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.3 } }}
       >
         <div className="bg-black/25 backdrop-blur-xl px-2 py-1 text-zinc-400 rounded-md text-[8px]">
-          Scroll to explore <ArrowDown className="w-2.5 h-2.5 inline-block" />
+          Scroll to explore
         </div>
       </motion.div>
 
@@ -152,7 +151,7 @@ export const HeroSection = () => {
             of hypersonic flight
           </h1> */}
           <h1 
-            className="relative text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[-0.02em]"
+            className="relative text-[44px] md:text-[64px] lg:text-[80px] leading-[1.15] tracking-[-0.02em] py-2 px-1"
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
