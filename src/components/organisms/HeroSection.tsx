@@ -4,10 +4,12 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import BackGroundLines from "@/public/background.png"
+import { useLoadingComplete } from "@/src/lib/LoadingContext";
 
 export const HeroSection = () => {
   const { scrollY } = useScroll();
   const width = useTransform(scrollY, [0, 600], ["33.33%", "100%"]);
+  const loadingComplete = useLoadingComplete();
 
   // Custom cursor state
   const [isHovered, setIsHovered] = useState(false);
@@ -56,7 +58,7 @@ export const HeroSection = () => {
     >
       {/* Custom Cursor */}
       <motion.div
-        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-50 items-center justify-center text-[9px] tracking-[0.2em] text-white uppercase"
+        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-50 items-center justify-center text-white uppercase"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -67,7 +69,7 @@ export const HeroSection = () => {
         }}
         transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.3 } }}
       >
-        <div className="bg-black/25 backdrop-blur-xl px-3 py-2 text-zinc-400 rounded-md text-[8px]">
+        <div className="bg-black/25 backdrop-blur-xl px-3 py-2 text-zinc-400 rounded-md text-[8px] saans-mono">
           Scroll to explore
         </div>
       </motion.div>
@@ -85,24 +87,21 @@ export const HeroSection = () => {
       <motion.div 
         className="absolute left-[4%] md:left-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
         style={{ x: xDotL1, y: yDotL1, scale: scaleDots }}
       />
       <motion.div 
         className="absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
         style={{ x: xDotL2, y: yDotL2, scale: scaleDots }}
       />
       <motion.div 
         className="absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
         style={{ x: xDotL3, y: yDotL3, scale: scaleDots }}
       />
@@ -110,24 +109,21 @@ export const HeroSection = () => {
       <motion.div 
         className="absolute right-[4%] md:right-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
         style={{ x: xDotR1, y: yDotR1, scale: scaleDots }}
       />
       <motion.div 
         className="absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
         style={{ x: xDotR2, y: yDotR2, scale: scaleDots }}
       />
       <motion.div 
         className="absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        animate={{ opacity: loadingComplete ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
         style={{ x: xDotR3, y: yDotR3, scale: scaleDots }}
       />
@@ -153,7 +149,7 @@ export const HeroSection = () => {
             of hypersonic flight
           </h1> */}
           <h1 
-            className="relative text-[44px] md:text-[64px] lg:text-[80px] leading-[1.15] tracking-[-0.02em] py-2 px-1"
+            className="relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1"
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
@@ -161,7 +157,12 @@ export const HeroSection = () => {
               backgroundClip: "text",
             }}
           >
-            Pioneering the future <br /> of hypersonic flight
+            <span className="md:hidden">
+              Pioneering the <br /> future of <br /> hypersonic flight
+            </span>
+            <span className="hidden md:inline">
+              Pioneering the future <br /> of hypersonic flight
+            </span>
           </h1>
           {/* COMING SOON Floating Tag */}
           {/* <div className="absolute -top-2 md:-top-4 -right-24 md:-right-40 hidden sm:flex items-center gap-2">
@@ -177,7 +178,7 @@ export const HeroSection = () => {
 
         {/* Description */}
         <div className="w-full flex pt-8 md:pt-16 justify-center items-center gap-x-3 md:gap-x-6 px-4 md:px-0">
-          <div className="h-16 md:h-10 w-2 pl-2 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
+          <div className="h-16 md:h-10 w-2 md:pl-2 pl-0 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
           <p 
             className="saans-mono whitespace-normal md:whitespace-nowrap text-[10px] md:text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.75] text-center max-w-[260px] md:max-w-none"
           >
@@ -200,7 +201,7 @@ export const HeroSection = () => {
               rootMargin="-100px"
             />
           </div> */}
-          <div className="h-16 md:h-10 w-2 pr-2 border-r-[.5px] border-y-[.5px] border-zinc-500"></div>
+          <div className="h-16 md:h-10 w-2 md:pr-2 pr-0 border-r-[.5px] border-y-[.5px] border-zinc-500"></div>
         </div>
       </div>
 
@@ -214,17 +215,18 @@ export const HeroSection = () => {
         {/* Mobile image without sticky track */}
         <div className="w-full flex justify-center md:hidden">
           <motion.div 
-            className="relative aspect-[2/1] overflow-visible min-w-[230px] z-10 mx-auto"
+            className="relative aspect-[3/2] overflow-visible min-w-[280px] z-10 mx-auto"
             style={{ width: widthMobile, y: yMobile }}
           >
             <div className="absolute inset-0 overflow-hidden">
               <Image
-                src="/hero.png"
+                src="/hero.webp"
                 alt="Hypersonic aircraft soaring above Earth"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw"
-                priority
+                fetchPriority="high"
+                preload
               />
               <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
             </div>
@@ -242,12 +244,13 @@ export const HeroSection = () => {
         >
           <div className="absolute inset-0 overflow-hidden">
             <Image
-              src="/hero.png"
+              src="/hero.webp"
               alt="Hypersonic aircraft soaring above Earth"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 1200px"
-              priority
+              fetchPriority="high"
+              preload
             />
             {/* Bottom fade to match next section */}
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />

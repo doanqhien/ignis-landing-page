@@ -115,7 +115,7 @@ export const AboutSection = () => {
         </div>
 
         {/* Feature cards */}
-        <div className="saans-mono tracking-[0.05rem] grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5 px-8">
+        <div className="relative not-first:saans-mono tracking-[0.05rem] grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5 px-8">
           {features.map((feature, index) => (
             <AnimatedCard
               key={index}
@@ -123,8 +123,10 @@ export const AboutSection = () => {
               index={index}
             />
           ))}
+           {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
+      <div className="absolute -bottom-[0%] -left-1/2 w-full max-w-[900px] h-[200px] bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
         </div>
-
+          
         {/* Contact Us button below cards */}
         <div className="mt-12 md:mt-20 flex items-center justify-center">
           <a

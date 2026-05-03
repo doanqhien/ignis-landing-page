@@ -96,6 +96,14 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center gap-6 bg-[#a0a0a0] p-[5px] rounded-sm ">
             <a
               href="#technology"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("technology");
+                if (el) {
+                  const top = el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({ top, behavior: "smooth" });
+                }
+              }}
               className="text-[9px] text-black uppercase hover:text-white transition-colors duration-300 pl-4"
             >
               OUR TECHNOLOGIES 
@@ -114,7 +122,6 @@ export const Navbar = () => {
               id="hamburger-btn"
               onClick={() => setMenuOpen(!menuOpen)}
               className="relative px-5 py-4 flex flex-col items-center justify-center rounded-xs outline-none bg-[#A0A0A0]"
-              aria-label="Toggle menu"
             >
               <motion.div
                 className="absolute w-4 h-[1px] bg-black"
@@ -159,7 +166,7 @@ export const Navbar = () => {
               </motion.div>
 
               {/* Divider */}
-              <motion.div variants={itemVariants} className="w-full max-w-[280px] border-t-[0.5px] border-[#666] my-8"></motion.div>
+              <motion.div variants={itemVariants} className="w-full max-w-[280px] border-t-[0.5px] border-[#666] py-2"></motion.div>
 
               {/* Contact Button */}
               <motion.a 

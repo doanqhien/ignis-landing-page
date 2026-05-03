@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import RDRE from "@/public/engine-propulsion.png";
-import DIGITAL_TWIN from "@/public/IMG.png";
-import IOT_SENSOR from "@/public/Frame1.png";
+import RDRE from "@/public/engine-propulsion.webp";
+import DIGITAL_TWIN from "@/public/IMG.webp";
+import IOT_SENSOR from "@/public/Frame.webp";
 
 const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -113,6 +113,7 @@ export const TechnologySection = () => {
 
   return (
     <section className="relative bg-[#ffffff]">
+      <div id="technology" />
       
       {/* Desktop View (md and above) */}
       <div className="hidden md:block max-w-[1200px] mx-auto px-4 md:px-16 pt-8">
@@ -126,11 +127,11 @@ export const TechnologySection = () => {
               <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
             </div>
 
-            <h2 className="text-4xl leading-[1.2] tracking-[-0.01em] text-[#1a1a1c] mb-16">
+            <h2 className="text-[40px] leading-[1.2] tracking-[0.01em] text-[#1a1a1c] mb-16">
               Our solutions deliver<br/>outstanding reliability
             </h2>
 
-            <div id="technology" className="relative mt-2 lg:mt-0">
+            <div className="relative mt-2 lg:mt-0">
               <div className="space-y-40 pb-[20vh]">
                 {stats.map((stat, index) => (
                   <StatItem
@@ -178,7 +179,7 @@ export const TechnologySection = () => {
 
       {/* Mobile View (Horizontal Scroll Parallax) */}
       <div ref={mobileSectionRef} className="block md:hidden w-full h-[300vh] relative">
-        <div className="sticky top-0 h-[100dvh] w-full flex flex-col pt-24 overflow-hidden bg-white">
+        <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-white py-8">
           
           <div className="px-4 mb-6 flex-shrink-0">
             <div className="flex items-center gap-2 mb-4">
@@ -192,14 +193,14 @@ export const TechnologySection = () => {
           </div>
 
           <div className="px-4 flex-shrink-0">
-            <div className="relative w-full aspect-square bg-[#f8f8f8] flex items-center justify-center">
+            <div className="relative w-full aspect-[4/3] bg-[#f8f8f8] flex items-center justify-center">
               <div className="absolute top-0 left-0 w-1 h-3 bg-black -translate-x-1 -translate-y-3" />
               <div className="absolute top-0 right-0 w-1 h-3 bg-black translate-x-1 -translate-y-3" />
               <div className="absolute bottom-0 left-0 w-1 h-3 bg-black -translate-x-1 translate-y-3" />
               <div className="absolute bottom-0 right-0 w-1 h-3 bg-black translate-x-1 translate-y-3" />
 
               <div className="absolute bottom-4 left-4 z-10">
-                <span className="text-[8px] tracking-widest text-zinc-400 uppercase">Illustrated Image</span>
+                <span className="text-[8px] tracking-widest text-white drop-shadow-md uppercase">Illustrated Image</span>
               </div>
               
               <div className="relative w-full h-full overflow-hidden">
@@ -218,21 +219,21 @@ export const TechnologySection = () => {
             </div>
           </div>
 
-          <div className="relative flex-1 w-full mt-8 overflow-hidden">
+          <div className="relative w-full mt-6 overflow-hidden flex-shrink-0">
             <motion.div 
-              className="absolute top-0 left-0 h-full flex w-[300%]"
+              className="flex w-[300%]"
               style={{ x: xMobile }}
             >
               {stats.map((stat, index) => (
-                <div key={index} className="w-1/3 px-4 h-full flex flex-col justify-start">
-                  <div className="text-[10px] text-zinc-400 mb-4 tracking-widest">
+                <div key={index} className="w-1/3 px-4 flex flex-col justify-start">
+                  <div className="text-[10px] text-zinc-400 mb-2 sm:mb-4 tracking-widest">
                     [ {index + 1}/{stats.length} ]
                   </div>
-                  <h3 className="text-[13px] font-medium tracking-[0.1rem] text-zinc-800 uppercase mb-3 pr-4">
+                  <h3 className="text-[12px] sm:text-[13px] font-medium tracking-[0.1rem] text-zinc-800 uppercase mb-2 sm:mb-3 pr-4">
                     {stat.title}
                   </h3>
-                  <div className="border-b border-zinc-400 border-dashed mb-4 opacity-40"></div>
-                  <p className="text-xs text-zinc-500 leading-[1.6]">
+                  <div className="border-b border-zinc-400 border-dashed mb-2 sm:mb-4 opacity-40"></div>
+                  <p className="text-[11px] sm:text-xs text-zinc-500 leading-[1.6]">
                     {stat.description}
                   </p>
                 </div>
@@ -240,29 +241,31 @@ export const TechnologySection = () => {
             </motion.div>
           </div>
 
-          <div className="absolute bottom-8 left-4 right-4 flex items-center h-4">
-            <div className="absolute left-0 w-full h-[1px] bg-zinc-300"></div>
-            <div 
-              className="absolute left-0 h-[1px] bg-black transition-all duration-300 z-0"
-              style={{ width: `${(activeMobile / (stats.length - 1)) * 100}%` }}
-            ></div>
-            {stats.map((_, index) => {
-              const percentage = (index / (stats.length - 1)) * 100;
-              const offset = index === 0 ? "0%" : index === stats.length - 1 ? "-100%" : "-50%";
-              
-              return (
-                <div 
-                  key={index}
-                  className={`absolute top-1/2 flex items-center justify-center w-[14px] h-[14px] transition-colors duration-500 border-[.5px] border-zinc-500 z-10 ${index <= activeMobile ? 'bg-black' : 'bg-white'}`}
-                  style={{ 
-                    left: `${percentage}%`,
-                    transform: `translate(${offset}, -50%)`
-                  }}
-                >
-                  <div className={`w-[3px] h-[3px] transition-colors duration-500 ${index <= activeMobile ? 'bg-white' : 'bg-black'}`}></div>
-                </div>
-              );
-            })}
+          <div className="px-4 mt-8 flex-shrink-0">
+            <div className="relative flex items-center h-4 w-full">
+              <div className="absolute left-0 right-0 h-[1px] bg-zinc-300"></div>
+              <div 
+                className="absolute left-0 h-[1px] bg-black transition-all duration-300 z-0"
+                style={{ width: `${(activeMobile / (stats.length - 1)) * 100}%` }}
+              ></div>
+              {stats.map((_, index) => {
+                const percentage = (index / (stats.length - 1)) * 100;
+                const offset = index === 0 ? "0%" : index === stats.length - 1 ? "-100%" : "-50%";
+                
+                return (
+                  <div 
+                    key={index}
+                    className={`absolute top-1/2 flex items-center justify-center w-[14px] h-[14px] transition-colors duration-500 border-[.5px] border-zinc-500 z-10 ${index <= activeMobile ? 'bg-black' : 'bg-white'}`}
+                    style={{ 
+                      left: `${percentage}%`,
+                      transform: `translate(${offset}, -50%)`
+                    }}
+                  >
+                    <div className={`w-[3px] h-[3px] transition-colors duration-500 ${index <= activeMobile ? 'bg-white' : 'bg-black'}`}></div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
         </div>

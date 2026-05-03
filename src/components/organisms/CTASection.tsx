@@ -5,11 +5,13 @@ import SplitText from "@/components/ui/split-text";
 
 export const CTASection = () => {
   return (
-    <section id="solutions" className="relative background-transparent border-y-0 md:border-y border-zinc-700">
+    <section id="solutions" className="relative background-transparent border-y-0 md:border-y border-zinc-700 overflow-hidden">
       <div className="max-w-full md:max-w-2/3 mx-auto">
         {/* CTA Card matching the dark, left-aligned design with right-aligned logo */}
         <div className="bg-zinc-900 border-x-0 md:border-x border-zinc-700 grid grid-cols-1 md:grid-cols-3 items-stretch">
-          
+                {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
+      <div className="absolute -bottom-[5%] left-[60%] w-full max-w-[900px] h-[150px] bg-[#3b82f6]/10 blur-[150px] rounded-[100%] pointer-events-none z-0" />
+ 
           {/* Left Column Content */}
           <div className="md:col-span-2 flex flex-col items-start text-left border-r-0 md:border-r border-zinc-700 px-10 md:px-6 md:pl-20 py-10 md:py-14">
             <h2 className="text-[20px] md:text-[32px] font-light text-white tracking-[0.05rem] mb-4">
