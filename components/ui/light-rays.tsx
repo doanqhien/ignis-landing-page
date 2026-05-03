@@ -99,8 +99,10 @@ export function LightRays({
   const cycleDuration = Math.max(speed, 0.1)
 
   useEffect(() => {
-    setRays(createRays(count, cycleDuration))
-  }, [count, cycleDuration])
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const finalCount = isMobile ? Math.min(3, count) : count;
+    setRays(createRays(finalCount, cycleDuration));
+  }, [count, cycleDuration]);
 
   return (
     <div

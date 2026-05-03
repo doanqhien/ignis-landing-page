@@ -124,7 +124,7 @@ export const AboutSection = () => {
             />
           ))}
            {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
-      <div className="absolute -bottom-[0%] -left-1/2 w-full max-w-[900px] h-[200px] bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="hidden md:block absolute -bottom-[0%] -left-1/2 w-full max-w-[900px] h-[200px] bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
         </div>
           
         {/* Contact Us button below cards */}

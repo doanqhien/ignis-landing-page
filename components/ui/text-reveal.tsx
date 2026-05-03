@@ -2,6 +2,8 @@
 
 import {
   useRef,
+  useState,
+  useEffect,
   type ComponentPropsWithoutRef,
   type FC,
   type ReactNode,
@@ -26,6 +28,10 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
     throw new Error("TextReveal: children must be a string")
   }
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
   const words = children.split(" ")
   const totalChars = children.length
   let charIndex = 0
@@ -45,6 +51,15 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
           }}
         > 
           {words.map((word, i) => {
+            if (isMobile) {
+              const start = i / words.length;
+              const end = start + 1 / words.length;
+              return (
+                <Char key={i} progress={scrollYProgress} range={[start, end]}>
+                  <span className="mx-1 whitespace-nowrap">{word}</span>
+                </Char>
+              );
+            }
             const chars = word.split("")
             const wordElement = (
               <span key={i} className="inline-block mx-1 md:mx-1.5 whitespace-nowrap">

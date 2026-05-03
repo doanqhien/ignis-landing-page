@@ -206,8 +206,8 @@ export const HeroSection = () => {
       </div>
 
       {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
-      <div className="absolute -bottom-[15%] left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[400px] bg-[#3b82f6]/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
-      <div className="absolute -bottom-[10%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-[#7dd3fc]/5 blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="hidden md:block absolute -bottom-[15%] left-1/2 -translate-x-1/2 w-full max-w-[900px] h-[400px] bg-[#3b82f6]/10 blur-[120px] rounded-[100%] pointer-events-none z-0" />
+      <div className="hidden md:block absolute -bottom-[10%] left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-[#7dd3fc]/5 blur-[100px] rounded-[100%] pointer-events-none z-0" />
       
       {/* Large hero aircraft image */}
       <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
