@@ -18,6 +18,7 @@ export const HeroSection = () => {
   const loadingComplete = useLoadingComplete();
   const sectionRef = useRef<HTMLElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   // Custom cursor state
   const [isHovered, setIsHovered] = useState(false);
@@ -35,87 +36,100 @@ export const HeroSection = () => {
     mousePos.current = { x: e.clientX, y: e.clientY };
   }, []);
 
-  // Optimized animation effect — scroll-driven updates only fire on scroll,
-  // cursor RAF only runs on desktop where hover is relevant.
+  // Scroll-driven image animation.
+  // Mobile: scale only (no translateY) — parallax Y causes extra composite layer
+  //         shifts that stutter on mobile's async scroll model.
+  // Desktop: full translateY + scale animation.
   useEffect(() => {
+    let isMobile = window.innerWidth < 768;
+
     const section = sectionRef.current;
     if (!section) return;
 
-    let isMobile = window.innerWidth < 768;
-    let lastScrollY = -1;
+    // Scroll position written by listener, read by RAF — zero DOM work on scroll thread.
+    const scrollRef = { y: window.scrollY };
+    let rafId = 0;
+    let lastAppliedScrollY = -1;
 
-    // --- Scroll-driven DOM update (shared mobile/desktop) ---
-    const updateScroll = () => {
-      const sy = window.scrollY;
-      // Skip if scroll position hasn't changed (avoids redundant DOM writes)
-      if (sy === lastScrollY) return;
-      lastScrollY = sy;
+    // Single RAF loop: reads latest scroll position and updates image DOM once per frame.
+    const tick = () => {
+      const sy = scrollRef.y;
 
-      // Image width & y (different scroll ranges per viewport)
-      section.style.setProperty(
-        "--img-w",
-        (isMobile ? lerp(sy, 0, 400, 33.33, 100) : lerp(sy, 0, 600, 33.33, 100)) + "%"
-      );
-      section.style.setProperty(
-        "--img-y",
-        (isMobile ? lerp(sy, 0, 400, 0, 160) : lerp(sy, 0, 1000, 0, 100)) + "px"
-      );
+      if (sy !== lastAppliedScrollY) {
+        lastAppliedScrollY = sy;
 
-      // Dots parallax — only compute when section is still in range
-      if (sy <= 1000) {
-        const s = lerp(sy, 0, 1000, 1, 5);
-        section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
-        section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
-        section.style.setProperty("--dl3", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
-        section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
-        section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
-        section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
+        if (imageRef.current) {
+          if (isMobile) {
+            // Mobile: subtle scale only (0.85 -> 1) to avoid heavy layout shifts
+            const scale = lerp(sy, 0, 300, 0.85, 1);
+            imageRef.current.style.transform = `scale(${scale})`;
+          } else {
+            // Desktop: full animation
+            const scale = lerp(sy, 0, 600, 0.3333, 1);
+            const y = lerp(sy, 0, 1000, 0, 100);
+            imageRef.current.style.transform = `translateY(${y}px) scale(${scale})`;
+          }
+        }
+
+        // Dots parallax — desktop only.
+        if (!isMobile && sy <= 1000) {
+          const s = lerp(sy, 0, 1000, 1, 5);
+          section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
+          section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
+          section.style.setProperty("--dl3", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
+          section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
+          section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
+          section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
+        }
       }
+
+      rafId = requestAnimationFrame(tick);
     };
 
-    // Trigger initial values
-    updateScroll();
+    rafId = requestAnimationFrame(tick);
 
-    // Use passive scroll listener — much lighter than continuous RAF on mobile
-    const onScroll = () => requestAnimationFrame(updateScroll);
+    const onScroll = () => { scrollRef.y = window.scrollY; };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Cache viewport size on resize
     const onResize = () => { isMobile = window.innerWidth < 768; };
     window.addEventListener("resize", onResize, { passive: true });
 
-    // --- Desktop-only: cursor spring RAF ---
-    let cursorRafId = 0;
-    if (!isMobile) {
-      let cursorX = -100;
-      let cursorY = -100;
-      let currentOpacity = 0;
-      let currentScale = 0.8;
-
-      const tickCursor = () => {
-        const cursor = cursorRef.current;
-        if (cursor) {
-          cursorX += (mousePos.current.x - cursorX) * 0.15;
-          cursorY += (mousePos.current.y - cursorY) * 0.15;
-
-          const targetOpacity = isHoveredRef.current ? 1 : 0;
-          const targetScale = isHoveredRef.current ? 1 : 0.8;
-          currentOpacity += (targetOpacity - currentOpacity) * 0.15;
-          currentScale += (targetScale - currentScale) * 0.15;
-
-          cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%) scale(${currentScale})`;
-          cursor.style.opacity = String(currentOpacity);
-        }
-        cursorRafId = requestAnimationFrame(tickCursor);
-      };
-      cursorRafId = requestAnimationFrame(tickCursor);
-    }
-
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      if (cursorRafId) cancelAnimationFrame(cursorRafId);
     };
+  }, []);
+
+  // Desktop-only: cursor spring animation in its own RAF loop.
+  useEffect(() => {
+    if (window.innerWidth < 768) return;
+
+    let cursorRafId = 0;
+    let cursorX = -100;
+    let cursorY = -100;
+    let currentOpacity = 0;
+    let currentScale = 0.8;
+
+    const tickCursor = () => {
+      const cursor = cursorRef.current;
+      if (cursor) {
+        cursorX += (mousePos.current.x - cursorX) * 0.15;
+        cursorY += (mousePos.current.y - cursorY) * 0.15;
+
+        const targetOpacity = isHoveredRef.current ? 1 : 0;
+        const targetScale = isHoveredRef.current ? 1 : 0.8;
+        currentOpacity += (targetOpacity - currentOpacity) * 0.15;
+        currentScale += (targetScale - currentScale) * 0.15;
+
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%) scale(${currentScale})`;
+        cursor.style.opacity = String(currentOpacity);
+      }
+      cursorRafId = requestAnimationFrame(tickCursor);
+    };
+    cursorRafId = requestAnimationFrame(tickCursor);
+
+    return () => { cancelAnimationFrame(cursorRafId); };
   }, []);
 
   return (
@@ -262,9 +276,15 @@ export const HeroSection = () => {
       {/* Large hero aircraft image */}
       <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
         <div 
-          className="relative aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 md:will-change-[width,transform]"
-          style={{ width: "var(--img-w, 33.33%)", transform: "translateY(var(--img-y, 0px))" }}
+          ref={imageRef}
+          className="relative w-full aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-transform origin-top"
+          style={{ transform: "translateY(0px) scale(var(--hero-scale, 0.3333))" }}
         >
+          <style>{`
+            @media (max-width: 767px) {
+              :root { --hero-scale: 0.85; }
+            }
+          `}</style>
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src="/hero.webp"

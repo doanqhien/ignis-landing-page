@@ -134,7 +134,7 @@ export const Navbar = () => {
             <button 
               id="hamburger-btn"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="relative px-5 py-4 flex flex-col items-center justify-center rounded-xs outline-none bg-[#A0A0A0]"
+              className="relative px-5 py-5 flex flex-col items-center justify-center rounded-xs outline-none bg-[#A0A0A0]"
             >
               <div
                 className={`absolute w-4 h-[1px] bg-black transition-transform duration-300 ${menuOpen ? 'rotate-45 translate-y-0' : 'rotate-0 -translate-y-[3.5px]'}`}
@@ -153,8 +153,8 @@ export const Navbar = () => {
           id="mobile-menu"
           className={`tracking-[0.05rem] flex justify-center items-center saans-mono fixed top-[84px] bottom-[10vh] left-0 right-0 z-40 bg-[#A0A0A0] rounded-b-2xl flex-col md:hidden text-[#1a1a1c] overflow-y-auto shadow-2xl transition-all ${
             menuOpen
-              ? "duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [clip-path:inset(0%_0%_0%_0%)] opacity-100"
-              : "duration-200 ease-in-out [clip-path:inset(0%_0%_0%_100%)] opacity-0"
+              ? "duration-300 ease-out translate-y-0 opacity-100"
+              : "duration-300 ease-in -translate-y-2 opacity-0 pointer-events-none"
           }`}
         >
           {/* Menu Content */}
