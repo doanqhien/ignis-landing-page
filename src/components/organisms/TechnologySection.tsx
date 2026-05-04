@@ -113,7 +113,7 @@ export const TechnologySection = () => {
 
   return (
     <section className="relative bg-[#ffffff]">
-      <div id="technology" />
+      <div id="technology" className="scroll-mt-24" />
       
       {/* Desktop View (md and above) */}
       <div className="hidden md:block max-w-[1200px] mx-auto px-4 md:px-16 pt-8">

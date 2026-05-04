@@ -35,67 +35,87 @@ export const HeroSection = () => {
     mousePos.current = { x: e.clientX, y: e.clientY };
   }, []);
 
-  // Single effect for all imperative animations
+  // Optimized animation effect — scroll-driven updates only fire on scroll,
+  // cursor RAF only runs on desktop where hover is relevant.
   useEffect(() => {
-    let rafId: number;
-    let cursorX = -100;
-    let cursorY = -100;
-    let currentOpacity = 0;
-    let currentScale = 0.8;
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const tick = () => {
-      const section = sectionRef.current;
-      if (!section) {
-        rafId = requestAnimationFrame(tick);
-        return;
-      }
+    let isMobile = window.innerWidth < 768;
+    let lastScrollY = -1;
 
-      // --- Scroll-driven transforms ---
+    // --- Scroll-driven DOM update (shared mobile/desktop) ---
+    const updateScroll = () => {
       const sy = window.scrollY;
-      const isMobile = window.innerWidth < 768;
+      // Skip if scroll position hasn't changed (avoids redundant DOM writes)
+      if (sy === lastScrollY) return;
+      lastScrollY = sy;
 
-      // Unified image width & y (different scroll ranges per viewport)
-      const imgWidth = isMobile
-        ? lerp(sy, 0, 400, 33.33, 100)
-        : lerp(sy, 0, 600, 33.33, 100);
-      const imgY = isMobile
-        ? lerp(sy, 0, 400, 0, 160)
-        : lerp(sy, 0, 1000, 0, 100);
-      section.style.setProperty("--img-w", imgWidth + "%");
-      section.style.setProperty("--img-y", imgY + "px");
+      // Image width & y (different scroll ranges per viewport)
+      section.style.setProperty(
+        "--img-w",
+        (isMobile ? lerp(sy, 0, 400, 33.33, 100) : lerp(sy, 0, 600, 33.33, 100)) + "%"
+      );
+      section.style.setProperty(
+        "--img-y",
+        (isMobile ? lerp(sy, 0, 400, 0, 160) : lerp(sy, 0, 1000, 0, 100)) + "px"
+      );
 
-      // Dots parallax
-      const dotScale = lerp(sy, 0, 1000, 1, 5);
-      // Left dots
-      section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw, ${lerp(sy, 0, 1000, 0, -20)}vh) scale(${dotScale})`);
-      section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw, ${lerp(sy, 0, 1000, 0, -10)}vh) scale(${dotScale})`);
-      section.style.setProperty("--dl3", `translate(${lerp(sy, 0, 1000, 0, -50)}vw, ${lerp(sy, 0, 1000, 0, 20)}vh) scale(${dotScale})`);
-      // Right dots
-      section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw, ${lerp(sy, 0, 1000, 0, -20)}vh) scale(${dotScale})`);
-      section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw, ${lerp(sy, 0, 1000, 0, -10)}vh) scale(${dotScale})`);
-      section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw, ${lerp(sy, 0, 1000, 0, 20)}vh) scale(${dotScale})`);
-
-      // --- Cursor spring animation ---
-      const cursor = cursorRef.current;
-      if (cursor) {
-        // Lerp cursor position (simulates spring with damping ≈ 0.15)
-        cursorX += (mousePos.current.x - cursorX) * 0.15;
-        cursorY += (mousePos.current.y - cursorY) * 0.15;
-
-        const targetOpacity = isHoveredRef.current ? 1 : 0;
-        const targetScale = isHoveredRef.current ? 1 : 0.8;
-        currentOpacity += (targetOpacity - currentOpacity) * 0.15;
-        currentScale += (targetScale - currentScale) * 0.15;
-
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%) scale(${currentScale})`;
-        cursor.style.opacity = String(currentOpacity);
+      // Dots parallax — only compute when section is still in range
+      if (sy <= 1000) {
+        const s = lerp(sy, 0, 1000, 1, 5);
+        section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
+        section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
+        section.style.setProperty("--dl3", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
+        section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
+        section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
+        section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
       }
-
-      rafId = requestAnimationFrame(tick);
     };
 
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
+    // Trigger initial values
+    updateScroll();
+
+    // Use passive scroll listener — much lighter than continuous RAF on mobile
+    const onScroll = () => requestAnimationFrame(updateScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Cache viewport size on resize
+    const onResize = () => { isMobile = window.innerWidth < 768; };
+    window.addEventListener("resize", onResize, { passive: true });
+
+    // --- Desktop-only: cursor spring RAF ---
+    let cursorRafId = 0;
+    if (!isMobile) {
+      let cursorX = -100;
+      let cursorY = -100;
+      let currentOpacity = 0;
+      let currentScale = 0.8;
+
+      const tickCursor = () => {
+        const cursor = cursorRef.current;
+        if (cursor) {
+          cursorX += (mousePos.current.x - cursorX) * 0.15;
+          cursorY += (mousePos.current.y - cursorY) * 0.15;
+
+          const targetOpacity = isHoveredRef.current ? 1 : 0;
+          const targetScale = isHoveredRef.current ? 1 : 0.8;
+          currentOpacity += (targetOpacity - currentOpacity) * 0.15;
+          currentScale += (targetScale - currentScale) * 0.15;
+
+          cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%) scale(${currentScale})`;
+          cursor.style.opacity = String(currentOpacity);
+        }
+        cursorRafId = requestAnimationFrame(tickCursor);
+      };
+      cursorRafId = requestAnimationFrame(tickCursor);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (cursorRafId) cancelAnimationFrame(cursorRafId);
+    };
   }, []);
 
   return (
@@ -131,29 +151,29 @@ export const HeroSection = () => {
 
       {/* Left dots */}
       <div 
-        className={`absolute left-[4%] md:left-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
+        className={`absolute left-[4%] md:left-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
         style={{ transform: "var(--dl1, none)" }}
       />
       <div 
-        className={`absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
+        className={`absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
         style={{ transform: "var(--dl2, none)" }}
       />
       <div 
-        className={`absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
+        className={`absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
         style={{ transform: "var(--dl3, none)" }}
       />
 
       {/* Right dots */}
       <div 
-        className={`absolute right-[4%] md:right-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
+        className={`absolute right-[4%] md:right-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
         style={{ transform: "var(--dr1, none)" }}
       />
       <div 
-        className={`absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
+        className={`absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
         style={{ transform: "var(--dr2, none)" }}
       />
       <div 
-        className={`absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
+        className={`absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white md:will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
         style={{ transform: "var(--dr3, none)" }}
       />
 
@@ -242,7 +262,7 @@ export const HeroSection = () => {
       {/* Large hero aircraft image */}
       <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
         <div 
-          className="relative aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-[width,transform]"
+          className="relative aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 md:will-change-[width,transform]"
           style={{ width: "var(--img-w, 33.33%)", transform: "translateY(var(--img-y, 0px))" }}
         >
           <div className="absolute inset-0 overflow-hidden">

@@ -83,11 +83,34 @@ export const Navbar = () => {
               onClick={(e) => {
                 e.preventDefault();
                 const el = document.getElementById("technology");
-                if (el) {
-                  console.log("el", el.getBoundingClientRect().top, window.scrollY);
-                  const top = el.getBoundingClientRect().top + window.scrollY;
-                  window.scrollTo({ top, behavior: "smooth" });
-                }
+                if (!el) return;
+                // Adaptive smooth scroll with user-interrupt detection
+                const ease = 0.12;
+                const threshold = 1;
+                let rafId = 0;
+                let frames = 0;
+                const maxFrames = 120; // ~2s safety limit
+
+                const cancel = () => {
+                  cancelAnimationFrame(rafId);
+                  window.removeEventListener("wheel", cancel);
+                  window.removeEventListener("touchmove", cancel);
+                };
+
+                const step = () => {
+                  const rect = el.getBoundingClientRect();
+                  if (Math.abs(rect.top) < threshold || frames++ > maxFrames) {
+                    cancel();
+                    return;
+                  }
+                  window.scrollBy({ top: rect.top * ease, behavior: "instant" });
+                  rafId = requestAnimationFrame(step);
+                };
+
+                // Cancel scroll animation if user scrolls manually
+                window.addEventListener("wheel", cancel, { once: true, passive: true });
+                window.addEventListener("touchmove", cancel, { once: true, passive: true });
+                rafId = requestAnimationFrame(step);
               }}
               className="text-[9px] text-black uppercase hover:text-white transition-colors duration-300 pl-4"
             >
@@ -140,7 +163,31 @@ export const Navbar = () => {
             {/* Section 1 */}
             <div className={`flex flex-col items-center text-center ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-75 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
               <span className="text-[10px] text-[#444] tracking-[0.2em] mb-[14px]"></span>
-              <a href="#technology" onClick={() => setMenuOpen(false)} className="text-[16px] uppercase font-medium tracking-[0.05em]">
+              <a href="#technology" onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+                const el = document.getElementById("technology");
+                if (!el) return;
+                const ease = 0.12;
+                const threshold = 1;
+                let rafId = 0;
+                let frames = 0;
+                const maxFrames = 120;
+                const cancel = () => {
+                  cancelAnimationFrame(rafId);
+                  window.removeEventListener("wheel", cancel);
+                  window.removeEventListener("touchmove", cancel);
+                };
+                const step = () => {
+                  const rect = el.getBoundingClientRect();
+                  if (Math.abs(rect.top) < threshold || frames++ > maxFrames) { cancel(); return; }
+                  window.scrollBy({ top: rect.top * ease, behavior: "instant" });
+                  rafId = requestAnimationFrame(step);
+                };
+                window.addEventListener("wheel", cancel, { once: true, passive: true });
+                window.addEventListener("touchmove", cancel, { once: true, passive: true });
+                rafId = requestAnimationFrame(step);
+              }} className="text-[16px] uppercase font-medium tracking-[0.05em]">
                 OUR TECHNOLOGIES
               </a>
               <div className="flex flex-col items-center space-y-[14px] mt-6 text-[11px] tracking-[0.1em] text-[#222]">
