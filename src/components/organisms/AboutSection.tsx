@@ -1,10 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import EfficientIcon from "@/public/Efficient.png";
-import { motion } from "framer-motion";
-import ScalableIcon from "@/public/Scalable.png";
-import AffordableIcon from "@/public/Affordable.png";
+import { useEffect, useRef, useState } from "react";
 import { TextReveal } from "@/components/ui/text-reveal";
 import { FeatureCard } from "../molecules/FeatureCard";
 import { LightRays } from "@/components/ui/light-rays";
@@ -15,26 +12,42 @@ const AnimatedCard = ({
   feature, 
   index, 
 }: { 
-  feature: { title: string, description: string, icon: React.ReactNode }, 
+  feature: { title: string, description: string, icon?: React.ReactNode, videoSrc?: string }, 
   index: number 
 }) => {
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          if (ref.current) observer.unobserve(ref.current);
+        }
+      },
+      { rootMargin: "-50px" }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  const delayClass = index === 0 ? 'delay-300' : index === 1 ? 'delay-500' : 'delay-700';
+
   return (
-    <motion.div
-      initial={{ x: 200, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        duration: 0.8, 
-        delay: 0.3 + index * 0.2, 
-        ease: "easeOut"
-      }}
+    <div
+      ref={ref}
+      className={inView ? `animate-in fade-in slide-in-from-right-[200px] duration-[800ms] ease-out ${delayClass} fill-mode-both` : "opacity-0"}
     >
       <FeatureCard
         title={feature.title}
         description={feature.description}
         icon={feature.icon}
+        videoSrc={feature.videoSrc}
       />
-    </motion.div>
+    </div>
   );
 };
 
@@ -45,19 +58,19 @@ export const AboutSection = () => {
       title: "EFFICIENT",
       description:
         "Advanced pressure-gain combustion delivers superior performance with less propellant.",
-      icon: <Image src={EfficientIcon} alt="Efficient" width={400} height={400}/>,
+      videoSrc: "/Efficient.webm",
     },
     {
       title: "SCALABLE",
       description:
         "Modular architecture that adapts seamlessly to different missions and vehicles.",
-      icon: <Image src={ScalableIcon} alt="Scalable" width={400} height={400}/>,
+      videoSrc: "/Scalable.webm",
     },
     {
       title: "AFFORDABLE",
       description:
         "Engineered for lower development, manufacturing, and operational costs without compromising quality.",
-      icon: <Image src={AffordableIcon} alt="Affordable" width={400} height={400}/>,
+      videoSrc: "/Affordable.webm",
     },
   ];
 

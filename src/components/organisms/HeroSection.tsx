@@ -1,78 +1,122 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import BackGroundLines from "@/public/background.png"
 import { useLoadingComplete } from "@/src/lib/LoadingContext";
 
+// Clamp value between min and max
+const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
+
+// Map a value from one range to another, clamped
+const lerp = (val: number, inMin: number, inMax: number, outMin: number, outMax: number) => {
+  const t = clamp((val - inMin) / (inMax - inMin), 0, 1);
+  return outMin + t * (outMax - outMin);
+};
+
 export const HeroSection = () => {
-  const { scrollY } = useScroll();
-  const width = useTransform(scrollY, [0, 600], ["33.33%", "100%"]);
   const loadingComplete = useLoadingComplete();
+  const sectionRef = useRef<HTMLElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   // Custom cursor state
   const [isHovered, setIsHovered] = useState(false);
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  
-  const springConfig = { damping: 25, stiffness: 300 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-  
-  // Parallax transforms for dots (moving outwards to leave the screen)
-  const xDotL1 = useTransform(scrollY, [0, 1000], ["0vw", "-50vw"]);
-  const yDotL1 = useTransform(scrollY, [0, 1000], ["0vh", "-20vh"]);
+  const isHoveredRef = useRef(false);
 
-  const xDotL2 = useTransform(scrollY, [0, 1000], ["0vw", "-60vw"]);
-  const yDotL2 = useTransform(scrollY, [0, 1000], ["0vh", "-10vh"]);
+  // Keep ref in sync with state (avoid re-running effect)
+  useEffect(() => {
+    isHoveredRef.current = isHovered;
+  }, [isHovered]);
 
-  const xDotL3 = useTransform(scrollY, [0, 1000], ["0vw", "-50vw"]);
-  const yDotL3 = useTransform(scrollY, [0, 1000], ["0vh", "20vh"]);
+  // Mouse position tracking via ref (no re-renders)
+  const mousePos = useRef({ x: -100, y: -100 });
 
-  const xDotR1 = useTransform(scrollY, [0, 1000], ["0vw", "50vw"]);
-  const yDotR1 = useTransform(scrollY, [0, 1000], ["0vh", "-20vh"]);
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    mousePos.current = { x: e.clientX, y: e.clientY };
+  }, []);
 
-  const xDotR2 = useTransform(scrollY, [0, 1000], ["0vw", "60vw"]);
-  const yDotR2 = useTransform(scrollY, [0, 1000], ["0vh", "-10vh"]);
+  // Single effect for all imperative animations
+  useEffect(() => {
+    let rafId: number;
+    let cursorX = -100;
+    let cursorY = -100;
+    let currentOpacity = 0;
+    let currentScale = 0.8;
 
-  const xDotR3 = useTransform(scrollY, [0, 1000], ["0vw", "50vw"]);
-  const yDotR3 = useTransform(scrollY, [0, 1000], ["0vh", "20vh"]);
+    const tick = () => {
+      const section = sectionRef.current;
+      if (!section) {
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
 
-  const scaleDots = useTransform(scrollY, [0, 1000], [1, 5]);
+      // --- Scroll-driven transforms ---
+      const sy = window.scrollY;
+      const isMobile = window.innerWidth < 768;
 
-  const yImage = useTransform(scrollY, [0, 1000], [0, 100]);
-  const yMobile = useTransform(scrollY, [0, 400], [0, 160]);
-  const widthMobile = useTransform(scrollY, [0, 400], ["33.33%", "100%"]);
+      // Unified image width & y (different scroll ranges per viewport)
+      const imgWidth = isMobile
+        ? lerp(sy, 0, 400, 33.33, 100)
+        : lerp(sy, 0, 600, 33.33, 100);
+      const imgY = isMobile
+        ? lerp(sy, 0, 400, 0, 160)
+        : lerp(sy, 0, 1000, 0, 100);
+      section.style.setProperty("--img-w", imgWidth + "%");
+      section.style.setProperty("--img-y", imgY + "px");
+
+      // Dots parallax
+      const dotScale = lerp(sy, 0, 1000, 1, 5);
+      // Left dots
+      section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw, ${lerp(sy, 0, 1000, 0, -20)}vh) scale(${dotScale})`);
+      section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw, ${lerp(sy, 0, 1000, 0, -10)}vh) scale(${dotScale})`);
+      section.style.setProperty("--dl3", `translate(${lerp(sy, 0, 1000, 0, -50)}vw, ${lerp(sy, 0, 1000, 0, 20)}vh) scale(${dotScale})`);
+      // Right dots
+      section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw, ${lerp(sy, 0, 1000, 0, -20)}vh) scale(${dotScale})`);
+      section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw, ${lerp(sy, 0, 1000, 0, -10)}vh) scale(${dotScale})`);
+      section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw, ${lerp(sy, 0, 1000, 0, 20)}vh) scale(${dotScale})`);
+
+      // --- Cursor spring animation ---
+      const cursor = cursorRef.current;
+      if (cursor) {
+        // Lerp cursor position (simulates spring with damping ≈ 0.15)
+        cursorX += (mousePos.current.x - cursorX) * 0.15;
+        cursorY += (mousePos.current.y - cursorY) * 0.15;
+
+        const targetOpacity = isHoveredRef.current ? 1 : 0;
+        const targetScale = isHoveredRef.current ? 1 : 0.8;
+        currentOpacity += (targetOpacity - currentOpacity) * 0.15;
+        currentScale += (targetScale - currentScale) * 0.15;
+
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%) scale(${currentScale})`;
+        cursor.style.opacity = String(currentOpacity);
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="w-full relative flex flex-col items-center overflow-clip pb-40 pt-28 md:pt-32 md:pb-0"
-      onMouseMove={(e) => {
-        cursorX.set(e.clientX);
-        cursorY.set(e.clientY);
-      }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Custom Cursor */}
-      <motion.div
-        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-50 items-center justify-center text-white uppercase"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-          translateX: "-50%",
-          translateY: "-50%",
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1 : 0.8,
-        }}
-        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.3 } }}
+      <div
+        ref={cursorRef}
+        className="hidden md:flex fixed top-0 left-0 pointer-events-none z-50 items-center justify-center text-white uppercase will-change-transform"
+        style={{ opacity: 0 }}
       >
         <div className="bg-black/25 backdrop-blur-xl px-3 py-2 text-zinc-400 rounded-md text-[8px] saans-mono">
           Scroll to explore
         </div>
-      </motion.div>
+      </div>
 
       {/* Background image */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -84,49 +128,35 @@ export const HeroSection = () => {
           className="object-cover"
         />
       </div>
-      <motion.div 
-        className="absolute left-[4%] md:left-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
-        style={{ x: xDotL1, y: yDotL1, scale: scaleDots }}
+
+      {/* Left dots */}
+      <div 
+        className={`absolute left-[4%] md:left-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
+        style={{ transform: "var(--dl1, none)" }}
       />
-      <motion.div 
-        className="absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-        style={{ x: xDotL2, y: yDotL2, scale: scaleDots }}
+      <div 
+        className={`absolute left-[6%] md:left-[12.5%] top-[55%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
+        style={{ transform: "var(--dl2, none)" }}
       />
-      <motion.div 
-        className="absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        style={{ x: xDotL3, y: yDotL3, scale: scaleDots }}
+      <div 
+        className={`absolute left-[6%] md:left-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
+        style={{ transform: "var(--dl3, none)" }}
       />
 
-      <motion.div 
-        className="absolute right-[4%] md:right-[10%]  md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
-        style={{ x: xDotR1, y: yDotR1, scale: scaleDots }}
+      {/* Right dots */}
+      <div 
+        className={`absolute right-[4%] md:right-[10%] md:top-[35%] top-[45%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-100' : 'opacity-0'}`}
+        style={{ transform: "var(--dr1, none)" }}
       />
-      <motion.div 
-        className="absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-        style={{ x: xDotR2, y: yDotR2, scale: scaleDots }}
+      <div 
+        className={`absolute right-[6%] md:right-[12.5%] top-[55%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-300' : 'opacity-0'}`}
+        style={{ transform: "var(--dr2, none)" }}
       />
-      <motion.div 
-        className="absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loadingComplete ? 1 : 0 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        style={{ x: xDotR3, y: yDotR3, scale: scaleDots }}
+      <div 
+        className={`absolute right-[6%] md:right-[10%] top-[65%] md:top-[75%] w-[5px] h-[5px] bg-white will-change-transform transition-opacity duration-1000 ease-out ${loadingComplete ? 'opacity-100 delay-500' : 'opacity-0'}`}
+        style={{ transform: "var(--dr3, none)" }}
       />
+
       {/* Hero content */}
       <div className="relative w-full mx-auto px-4 md:px-8 pt-8 md:pt-16 pb-0 text-center">
         {/* Main heading wrapper for positioning the tag */}
@@ -211,36 +241,9 @@ export const HeroSection = () => {
       
       {/* Large hero aircraft image */}
       <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
-        
-        {/* Mobile image without sticky track */}
-        <div className="w-full flex justify-center md:hidden">
-          <motion.div 
-            className="relative aspect-[3/2] overflow-visible min-w-[280px] z-10 mx-auto"
-            style={{ width: widthMobile, y: yMobile }}
-          >
-            <div className="absolute inset-0 overflow-hidden">
-              <Image
-                src="/hero.webp"
-                alt="Hypersonic aircraft soaring above Earth"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw"
-                fetchPriority="high"
-                preload
-              />
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
-            </div>
-            <div className="absolute top-0 left-0 w-1 h-3  bg-white -translate-x-1 -translate-y-3" />
-            <div className="absolute top-0 right-0 w-1 h-3 bg-white translate-x-1 -translate-y-3" />
-            <div className="absolute bottom-0 left-0 w-1 h-3  bg-white -translate-x-1 translate-y-3" />
-            <div className="absolute bottom-0 right-0 w-1 h-3 bg-white translate-x-1 translate-y-3" />
-          </motion.div>
-        </div>
-
-        {/* Desktop normal scrolling image (untouched) */}
-        <motion.div 
-          className="relative aspect-[2/1] overflow-visible min-w-[230px] md:min-w-0 hidden md:block"
-          style={{ width, y: yImage }}
+        <div 
+          className="relative aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-[width,transform]"
+          style={{ width: "var(--img-w, 33.33%)", transform: "translateY(var(--img-y, 0px))" }}
         >
           <div className="absolute inset-0 overflow-hidden">
             <Image
@@ -256,11 +259,11 @@ export const HeroSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
           </div>
           {/* Decorative Corner Crosshairs/Brackets */}
-          <div className="absolute top-0 left-0 w-1 h-3  bg-white -translate-x-1 -translate-y-3" />
+          <div className="absolute top-0 left-0 w-1 h-3 bg-white -translate-x-1 -translate-y-3" />
           <div className="absolute top-0 right-0 w-1 h-3 bg-white translate-x-1 -translate-y-3" />
-          <div className="absolute bottom-0 left-0 w-1 h-3  bg-white -translate-x-1 translate-y-3" />
+          <div className="absolute bottom-0 left-0 w-1 h-3 bg-white -translate-x-1 translate-y-3" />
           <div className="absolute bottom-0 right-0 w-1 h-3 bg-white translate-x-1 translate-y-3" />
-        </motion.div>
+        </div>
 
       </div>
     </section>

@@ -3,11 +3,20 @@
 import logo from "@/public/Logo.png";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Arrow from "@/public/arrow.svg";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (menuOpen) {
+      setIsMounted(true);
+    } else {
+      const timer = setTimeout(() => setIsMounted(false), 200);
+      return () => clearTimeout(timer);
+    }
+  }, [menuOpen]);
 
   // Prevent scrolling and scrollbar layout shift when menu is open
   useEffect(() => {
@@ -50,32 +59,7 @@ export const Navbar = () => {
     };
   }, [menuOpen]);
 
-  const menuVariants = {
-    hidden: { clipPath: "inset(0% 0% 0% 100%)" },
-    show: {
-      clipPath: "inset(0% 0% 0% 0%)",
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1] as const,
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
-    },
-    exit: {
-      clipPath: "inset(0% 0% 0% 100%)",
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: "easeInOut" as const,
-      },
-    },
-  };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-    exit: { opacity: 0, transition: { duration: 0.1 } },
-  };
 
   return (
     <>
@@ -85,7 +69,7 @@ export const Navbar = () => {
           <div className="mx-auto px-5 flex items-center justify-between h-7">
             <div className=""></div>
             <div className=""></div>
-            <div className="text-[7px] text-white uppercase">contact us at admin@ignishypersonics.com</div>
+            <div className="text-[9px] text-white uppercase">contact us at admin@ignishypersonics.com</div>
           </div>
         </div>
 
@@ -100,6 +84,7 @@ export const Navbar = () => {
                 e.preventDefault();
                 const el = document.getElementById("technology");
                 if (el) {
+                  console.log("el", el.getBoundingClientRect().top, window.scrollY);
                   const top = el.getBoundingClientRect().top + window.scrollY;
                   window.scrollTo({ top, behavior: "smooth" });
                 }
@@ -108,12 +93,17 @@ export const Navbar = () => {
             >
               OUR TECHNOLOGIES 
             </a>
-            <a
-              href="mailto:admin@ignishypersonics.com"
-              className="text-[9px] text-zinc-200 uppercase border border-zinc-700/50 px-5 py-2 rounded-sm bg-zinc-900 hover:bg-zinc-800/80 hover:text-white transition-all duration-300"
-            >
-              Contact Us 
-            </a>
+          <a
+            href="mailto:admin@ignishypersonics.com"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase px-4 py-2 rounded bg-zinc-800 hover:bg-zinc-500 hover:text-black transition-all duration-500"
+          >
+            <span className="relative z-10 flex items-center gap-1">
+              Contact Us
+            </span>
+            <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
+              <span className="w-0 h-0 bg-white rounded-full transition-all duration-600 ease-out group-hover:w-56 group-hover:h-56"></span>
+            </span>
+          </a>
           </div>
 
           {/* Mobile hamburger */}
@@ -123,15 +113,11 @@ export const Navbar = () => {
               onClick={() => setMenuOpen(!menuOpen)}
               className="relative px-5 py-4 flex flex-col items-center justify-center rounded-xs outline-none bg-[#A0A0A0]"
             >
-              <motion.div
-                className="absolute w-4 h-[1px] bg-black"
-                animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -3.5 }}
-                transition={{ duration: 0.3 }}
+              <div
+                className={`absolute w-4 h-[1px] bg-black transition-transform duration-300 ${menuOpen ? 'rotate-45 translate-y-0' : 'rotate-0 -translate-y-[3.5px]'}`}
               />
-              <motion.div
-                className="absolute w-4 h-[1px] bg-black"
-                animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 3.5 }}
-                transition={{ duration: 0.3 }}
+              <div
+                className={`absolute w-4 h-[1px] bg-black transition-transform duration-300 ${menuOpen ? '-rotate-45 translate-y-0' : 'rotate-0 translate-y-[3.5px]'}`}
               />
             </button>
           </div>
@@ -139,65 +125,61 @@ export const Navbar = () => {
       </nav>
 
       {/* Mobile drawer overlay */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="mobile-menu"
-            className="tracking-[0.05rem] flex justify-center items-center saans-mono fixed top-[84px] bottom-[10vh] left-0 right-0 z-40 bg-[#A0A0A0] rounded-b-2xl flex flex-col md:hidden text-[#1a1a1c] overflow-y-auto shadow-2xl"
-            variants={menuVariants}
-            initial="hidden"
-            animate="show"
-            exit="exit"
-          >
-            {/* Menu Content */}
-            <div className=" flex flex-col items-center justify-center gap-4 px-6 py-8 min-h-max">
-              
-              {/* Section 1 */}
-              <motion.div variants={itemVariants} className="flex flex-col items-center text-center">
-                <span className="text-[10px] text-[#444] tracking-[0.2em] mb-[14px]"></span>
-                <a href="#technology" onClick={() => setMenuOpen(false)} className="text-[16px] uppercase font-medium tracking-[0.05em]">
-                  OUR TECHNOLOGIES
-                </a>
-                <div className="flex flex-col items-center space-y-[14px] mt-6 text-[11px] tracking-[0.1em] text-[#222]">
-                  <span>RDRE</span>
-                  <span>DIGITAL TWIN</span>
-                  <span>IOT SENSORS</span>
-                </div>
-              </motion.div>
-
-              {/* Divider */}
-              <motion.div variants={itemVariants} className="w-full max-w-[280px] border-t-[0.5px] border-[#666] py-2"></motion.div>
-
-              {/* Contact Button */}
-              <motion.a 
-                variants={itemVariants}
-                href="mailto:admin@ignishypersonics.com" 
-                onClick={() => setMenuOpen(false)}
-                className="w-full max-w-[280px] bg-[#141414] text-[#eee] flex items-center justify-center gap-3 py-[16px] text-[10px] tracking-[0.15em] uppercase rounded-[2px] mb-[44px] hover:bg-black transition-colors"
-              >
-                CONTACT US <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert" />
-              </motion.a>
-
-              {/* Email Section */}
-              <motion.div variants={itemVariants} className="flex items-center justify-center mb-8 w-full max-w-[280px]">
-                <div className="border-l-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
-                <div className="flex-1 flex flex-col items-center justify-center py-2">
-                  <span className="text-[9px] tracking-[0.2em] text-[#444] uppercase mb-[6px]">EMAIL US AT</span>
-                  <p className="text-[11px] tracking-[0.08em] text-[#1a1a1c] font-medium">ADMIN@IGNISHYPERSONICS.COM</p>
-                </div>
-                <div className="border-r-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
-              </motion.div>
-
-              {/* Footer Links */}
-              <motion.div variants={itemVariants} className="flex items-center justify-center gap-8 text-[10px] tracking-[0.1em] uppercase text-[#444] underline underline-offset-[4px] mt-auto">
-                <a href="#" className="hover:text-black">PRIVACY POLICY</a>
-                <a href="#" className="hover:text-black">TERMS OF USE</a>
-              </motion.div>
+      {isMounted && (
+        <div
+          id="mobile-menu"
+          className={`tracking-[0.05rem] flex justify-center items-center saans-mono fixed top-[84px] bottom-[10vh] left-0 right-0 z-40 bg-[#A0A0A0] rounded-b-2xl flex-col md:hidden text-[#1a1a1c] overflow-y-auto shadow-2xl transition-all ${
+            menuOpen
+              ? "duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] [clip-path:inset(0%_0%_0%_0%)] opacity-100"
+              : "duration-200 ease-in-out [clip-path:inset(0%_0%_0%_100%)] opacity-0"
+          }`}
+        >
+          {/* Menu Content */}
+          <div className=" flex flex-col items-center justify-center gap-4 px-6 py-8 min-h-max">
+            
+            {/* Section 1 */}
+            <div className={`flex flex-col items-center text-center ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-75 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
+              <span className="text-[10px] text-[#444] tracking-[0.2em] mb-[14px]"></span>
+              <a href="#technology" onClick={() => setMenuOpen(false)} className="text-[16px] uppercase font-medium tracking-[0.05em]">
+                OUR TECHNOLOGIES
+              </a>
+              <div className="flex flex-col items-center space-y-[14px] mt-6 text-[11px] tracking-[0.1em] text-[#222]">
+                <span>RDRE</span>
+                <span>DIGITAL TWIN</span>
+                <span>IOT SENSORS</span>
+              </div>
             </div>
 
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {/* Divider */}
+            <div className={`w-full max-w-[280px] border-t-[0.5px] border-[#666] py-2 ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-150 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}></div>
+
+            {/* Contact Button */}
+            <a 
+              href="mailto:admin@ignishypersonics.com" 
+              onClick={() => setMenuOpen(false)}
+              className={`w-full max-w-[280px] bg-[#141414] text-[#eee] flex items-center justify-center gap-3 py-[16px] text-[10px] tracking-[0.15em] uppercase rounded-[2px] mb-[44px] hover:bg-black transition-colors ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-200 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}
+            >
+              CONTACT US <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert" />
+            </a>
+
+            {/* Email Section */}
+            <div className={`flex items-center justify-center mb-8 w-full max-w-[280px] ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-300 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
+              <div className="border-l-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
+              <div className="flex-1 flex flex-col items-center justify-center py-2">
+                <span className="text-[9px] tracking-[0.2em] text-[#444] uppercase mb-[6px]">EMAIL US AT</span>
+                <p className="text-[11px] tracking-[0.08em] text-[#1a1a1c] font-medium">ADMIN@IGNISHYPERSONICS.COM</p>
+              </div>
+              <div className="border-r-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
+            </div>
+
+            {/* Footer Links */}
+            <div className={`flex items-center justify-center gap-8 text-[10px] tracking-[0.1em] uppercase text-[#444] underline underline-offset-[4px] mt-auto ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-500 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
+              <a href="#" className="hover:text-black">PRIVACY POLICY</a>
+              <a href="#" className="hover:text-black">TERMS OF USE</a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

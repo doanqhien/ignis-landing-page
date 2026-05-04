@@ -54,11 +54,11 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
       </div>
       
       <div className="pt-1">
-        <h3 className="text-[11px] tracking-[-0.05rem] saans-mono text-zinc-800 uppercase mb-3">
+        <h3 className="text-xs tracking-[-0.05rem] saans-mono text-zinc-800 uppercase mb-3">
           {stat.title}
         </h3>
         <div className=" border-b border-zinc-400 border-dashed mb-3 opacity-40"></div>
-        <p className="text-xs text-zinc-500 leading-[1.5] max-w-sm">
+        <p className="text-sm text-zinc-500 leading-[1.5] max-w-sm">
           {stat.description}
         </p>
       </div>
@@ -123,7 +123,7 @@ export const TechnologySection = () => {
           <div className="flex flex-col justify-center lg:pt-24 lg:pb-24 order-2 lg:order-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
-              <p className="text-[7px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
+              <p className="text-[8px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
               <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
             </div>
 
