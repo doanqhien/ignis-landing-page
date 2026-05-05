@@ -62,7 +62,7 @@ export const QuoteSection = () => {
           and ambition becomes velocity.
         </h2> */}
         <TextReveal>
-          Built for the edge of possible, where detonation becomes precision, and ambition becomes velocity.
+          Built for the edge of possible, where detonation becomes precision, and ambition becomes velocity
         </TextReveal>
       </div>
     </section>

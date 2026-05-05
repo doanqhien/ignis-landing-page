@@ -79,7 +79,7 @@ export const AboutSection = () => {
       <div className="w-full mx-auto px-4 md:px-8 lg:px-20">
         <LightRays />
         {/* Section header */}
-        <div className="max-w-4/5 md:max-w-2/3 mx-auto text-center mb-16">
+        <div className="max-w-4/5 md:max-w-3/4 mx-auto text-center mb-16">
           {/* HIGH PERFORMANCE subtitle */}
           <div className="flex items-center gap-2 justify-center">
             <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-500"></div>

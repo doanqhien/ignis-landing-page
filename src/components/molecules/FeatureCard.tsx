@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import SplitText from "@/components/ui/split-text";
 
 interface FeatureCardProps {
   title: string;
@@ -60,7 +61,19 @@ export const FeatureCard = ({ title, description, icon, videoSrc }: FeatureCardP
       </div>
 
       <p className="text-[9px] text-zinc-500 leading-[1.8] uppercase tracking-[0.1em]">
-        {description}
+            <SplitText
+              text={description}
+              className="text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.8] max-w-sm mb-10 saans-mono"
+              delay={10}
+              duration={2}
+              ease="power3.out"
+              splitType="words, chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="justify"
+            />
       </p>
     </div>
   );

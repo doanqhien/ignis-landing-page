@@ -1,11 +1,16 @@
+"use client";
+
 import Logo  from "@/public/Logo.png";
 import Arrow from "@/public/arrow.svg";
 import Image from "next/image";
 import SplitText from "@/components/ui/split-text";
+import { useInView } from "@/src/lib/useInView";
 
 export const CTASection = () => {
+  const [ref, isInView] = useInView({ threshold: 0.1, once: true });
+
   return (
-    <section id="solutions" className="relative background-transparent border-y-0 md:border-y border-zinc-700 overflow-hidden">
+    <section ref={ref} id="solutions" className="relative background-transparent border-y-0 md:border-y border-zinc-700 overflow-hidden">
       <div className="max-w-full md:max-w-2/3 mx-auto">
         {/* CTA Card matching the dark, left-aligned design with right-aligned logo */}
         <div className="bg-zinc-900 border-x-0 md:border-x border-zinc-700 grid grid-cols-1 md:grid-cols-3 items-stretch">
@@ -14,7 +19,9 @@ export const CTASection = () => {
  
           {/* Left Column Content */}
           <div className="md:col-span-2 flex flex-col items-start text-left border-r-0 md:border-r border-zinc-700 px-10 md:px-6 md:pl-20 py-10 md:py-14">
-            <h2 className="text-[20px] md:text-[32px] font-light text-white tracking-[0.05rem] mb-4">
+            <h2 className={`text-[20px] md:text-[32px] font-light text-white tracking-[0.05rem] mb-4 transition-all duration-1000 ease-out ${
+              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+            }`}>
               Ready to ignite?
             </h2>
 
@@ -34,7 +41,9 @@ export const CTASection = () => {
 
           <a
             href="mailto:admin@ignishypersonics.com"
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-black hover:bg-zinc-500 hover:text-black transition-all duration-500"
+            className={`group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-black hover:bg-zinc-500 hover:text-black transition-all duration-1000 ease-out ${
+              isInView ? "opacity-100 translate-y-0 delay-500" : "opacity-0 translate-y-16"
+            }`}
           >
             <span className="relative z-10 flex items-center gap-1">
               Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" />
@@ -48,11 +57,15 @@ export const CTASection = () => {
           {/* Right Column Content */}
           <div className="w-full h-24 md:h-full border-y border-zinc-600 md:border-y-0 md:col-span-1 flex flex-row-reverse md:flex-col items-start">
             <div className="w-full h-full flex justify-center items-center">
-              <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
-                <span className="text-zinc-600">Email</span> 
-                <br/>
-                admin@ignishypersonics.com
-              </p>
+              <div className={`transition-all duration-1000 ease-out delay-700 ${
+                isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}>
+                <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
+                  <span className="text-zinc-600">Email</span> 
+                  <br/>
+                  admin@ignishypersonics.com
+                </p>
+              </div>
             </div>
 
             {/* Logo positioned at bottom right */}

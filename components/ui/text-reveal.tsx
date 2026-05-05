@@ -27,20 +27,28 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
       
       const rect = sectionRef.current.getBoundingClientRect()
       const windowHeight = window.innerHeight
+      const scrollY = window.scrollY
+      const documentHeight = document.documentElement.scrollHeight
       
       // Calculate progress based on scroll position relative to the target offsets
-      // Offset: ["start 90%", "end 45%"]
+      // Offset: ["start 90%", "end 60%"] - Using 60% instead of 45% to finish earlier
       const start = windowHeight * 0.9
-      const end = windowHeight * 0.45
+      const end = windowHeight * 0.6
       
-      const progress = (start - rect.top) / (start - (rect.bottom - (rect.height - (start - end))))
-      // Simplified: how far into the target range is the element
       const elementHeight = rect.height
       const totalDistance = start - end + elementHeight
       const currentDistance = start - rect.top
       
-      const calculatedProgress = Math.min(Math.max(currentDistance / totalDistance, 0), 1)
-      setScrollYProgress(calculatedProgress)
+      let calculatedProgress = currentDistance / totalDistance
+
+      // Special case: If we've scrolled to the very bottom of the page, force progress to 1
+      // this is important for elements near the footer on large screens.
+      const isAtBottom = windowHeight + scrollY >= documentHeight - 10
+      if (isAtBottom && calculatedProgress > 0) {
+        calculatedProgress = 1
+      }
+      
+      setScrollYProgress(Math.min(Math.max(calculatedProgress, 0), 1))
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
@@ -61,7 +69,7 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
       <div className="bg-transparent relative">
         <div
           className={
-            "relative z-0 text-balance flex flex-wrap justify-center text-[28px] md:text-[38px] lg:text-[46px] leading-[1.1] tracking-[-0.02em] pt-10 pb-4"
+            "relative z-0 text-balance text-center text-[28px] md:text-[38px] lg:text-[46px] leading-[1.1] tracking-[-0.02em] pt-10 pb-4"
           }
           style={{ 
             backgroundImage: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
