@@ -39,7 +39,7 @@ const AnimatedCard = ({
   return (
     <div
       ref={ref}
-      className={inView ? `animate-in fade-in slide-in-from-right-[200px] duration-[800ms] ease-out ${delayClass} fill-mode-both` : "opacity-0"}
+      className={inView ? `animate-in fade-in slide-in-from-right-[200px] duration-800 ease-out ${delayClass} fill-mode-both` : "opacity-0"}
     >
       <FeatureCard
         title={feature.title}
@@ -137,7 +137,7 @@ export const AboutSection = () => {
             />
           ))}
            {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
-      <div className="hidden md:block absolute -bottom-[0%] -left-1/2 w-full max-w-[900px] h-[200px] bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="hidden md:block absolute bottom-0 -left-1/2 w-full max-w-225 h-50 bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
         </div>
           
         {/* Contact Us button below cards */}

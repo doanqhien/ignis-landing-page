@@ -59,15 +59,12 @@ export const Navbar = () => {
     };
   }, [menuOpen]);
 
-
-
   return (
     <>
       <nav id="navbar" className={`tracking-[0.05rem] saans-mono top-0 left-0 right-0 z-50 transition-colors duration-300 ${menuOpen ? 'fixed bg-[#0a0a0c]' : 'absolute bg-transparent'}`}>
         {/* Announcement bar - hidden on mobile */}
         <div className="w-full bg-[#262A2C]">
           <div className="mx-auto px-5 flex items-center justify-between h-7">
-            <div className=""></div>
             <div className=""></div>
             <div className="text-[9px] text-white uppercase">contact us at admin@ignishypersonics.com</div>
           </div>
@@ -134,13 +131,13 @@ export const Navbar = () => {
             <button 
               id="hamburger-btn"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="relative px-5 py-5 flex flex-col items-center justify-center rounded-xs outline-none bg-[#A0A0A0]"
+              className="relative px-6 py-5 flex flex-col items-center justify-center rounded-[3px] outline-none bg-[#A0A0A0]"
             >
               <div
-                className={`absolute w-4 h-[1px] bg-black transition-transform duration-300 ${menuOpen ? 'rotate-45 translate-y-0' : 'rotate-0 -translate-y-[3.5px]'}`}
+                className={`absolute w-5 h-[1.5px] bg-black transition-transform duration-300 ${menuOpen ? 'rotate-45 translate-y-0' : 'rotate-0 -translate-y-[3.5px]'}`}
               />
               <div
-                className={`absolute w-4 h-[1px] bg-black transition-transform duration-300 ${menuOpen ? '-rotate-45 translate-y-0' : 'rotate-0 translate-y-[3.5px]'}`}
+                className={`absolute w-5 h-[1.5px] bg-black transition-transform duration-300 ${menuOpen ? '-rotate-45 translate-y-0' : 'rotate-0 translate-y-[3.5px]'}`}
               />
             </button>
           </div>
@@ -151,10 +148,10 @@ export const Navbar = () => {
       {isMounted && (
         <div
           id="mobile-menu"
-          className={`tracking-[0.05rem] flex justify-center items-center saans-mono fixed top-[84px] bottom-[10vh] left-0 right-0 z-40 bg-[#A0A0A0] rounded-b-2xl flex-col md:hidden text-[#1a1a1c] overflow-y-auto shadow-2xl transition-all ${
+          className={`tracking-[0.05rem] flex justify-center items-center saans-mono fixed top-21 bottom-[10vh] left-0 right-0 z-40 bg-[#A0A0A0] rounded-b-2xl flex-col md:hidden text-[#1a1a1c] overflow-y-auto shadow-2xl transition-all ${
             menuOpen
               ? "duration-300 ease-out translate-y-0 opacity-100"
-              : "duration-300 ease-in -translate-y-2 opacity-0 pointer-events-none"
+              : "duration-200 ease-in -translate-y-2 opacity-0 pointer-events-none"
           }`}
         >
           {/* Menu Content */}
@@ -162,7 +159,7 @@ export const Navbar = () => {
             
             {/* Section 1 */}
             <div className={`flex flex-col items-center text-center ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-75 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
-              <span className="text-[10px] text-[#444] tracking-[0.2em] mb-[14px]"></span>
+              <span className="text-[10px] text-[#444] tracking-[0.2em] mb-3.5"></span>
               <a href="#technology" onClick={(e) => {
                 e.preventDefault();
                 setMenuOpen(false);
@@ -190,7 +187,7 @@ export const Navbar = () => {
               }} className="text-[16px] uppercase font-medium tracking-[0.05em]">
                 OUR TECHNOLOGIES
               </a>
-              <div className="flex flex-col items-center space-y-[14px] mt-6 text-[11px] tracking-[0.1em] text-[#222]">
+              <div className="flex flex-col items-center space-y-3.5 mt-6 text-[11px] tracking-widest text-[#222]">
                 <span>RDRE</span>
                 <span>DIGITAL TWIN</span>
                 <span>IOT SENSORS</span>
@@ -198,13 +195,13 @@ export const Navbar = () => {
             </div>
 
             {/* Divider */}
-            <div className={`w-full max-w-[280px] border-t-[0.5px] border-[#666] py-2 ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-150 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}></div>
+            <div className={`w-full max-w-70 border-t-[0.5px] border-[#666] py-2 ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-150 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}></div>
 
             {/* Contact Button */}
             <a 
               href="mailto:admin@ignishypersonics.com" 
               onClick={() => setMenuOpen(false)}
-              className={`w-full max-w-[280px] bg-[#141414] text-[#eee] flex items-center justify-center gap-3 py-[16px] text-[10px] tracking-[0.15em] uppercase rounded-[2px] mb-[44px] hover:bg-black transition-colors ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-200 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}
+              className={`w-full max-w-70 bg-[#141414] text-[#eee] flex items-center justify-center gap-2 py-4 text-[10px] tracking-[0.15em] uppercase rounded-[3px] mb-11 hover:bg-black transition-colors ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-200 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}
             >
               CONTACT US <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert" />
             </a>

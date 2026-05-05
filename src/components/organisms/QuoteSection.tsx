@@ -43,7 +43,7 @@ export const QuoteSection = () => {
         }`}
       />
 
-      <div className="max-w-[90%] md:max-w-2/3 mx-auto relative">
+      <div className="max-w-[85%] md:max-w-2/3 mx-auto relative">
         {/* <h2 className="text-[28px] md:text-[42px] lg:text-[48px] font-light leading-[1.3] tracking-[-0.01em] text-zinc-400">
           <span
             style={{

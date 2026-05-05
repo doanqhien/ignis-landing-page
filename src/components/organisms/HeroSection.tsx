@@ -60,8 +60,8 @@ export const HeroSection = () => {
 
         if (imageRef.current) {
           if (isMobile) {
-            // Mobile: subtle scale only (0.7 -> 1) to avoid heavy layout shifts
-            const scale = lerp(sy, 0, 300, 0.7, 1);
+            // Mobile: subtle scale only (0.6 -> 1) to avoid heavy layout shifts
+            const scale = lerp(sy, 0, 300, 0.6, 1);
             imageRef.current.style.transform = `scale(${scale})`;
           } else {
             // Desktop: full animation
@@ -72,7 +72,7 @@ export const HeroSection = () => {
         }
 
         // Dots parallax — desktop only.
-        if (!isMobile && sy <= 1000) {
+        // if (!isMobile && sy <= 1000) {
           const s = lerp(sy, 0, 1000, 1, 5);
           section.style.setProperty("--dl1", `translate(${lerp(sy, 0, 1000, 0, -50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
           section.style.setProperty("--dl2", `translate(${lerp(sy, 0, 1000, 0, -60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
@@ -80,7 +80,7 @@ export const HeroSection = () => {
           section.style.setProperty("--dr1", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, -20)}vh) scale(${s})`);
           section.style.setProperty("--dr2", `translate(${lerp(sy, 0, 1000, 0, 60)}vw,${lerp(sy, 0, 1000, 0, -10)}vh) scale(${s})`);
           section.style.setProperty("--dr3", `translate(${lerp(sy, 0, 1000, 0, 50)}vw,${lerp(sy, 0, 1000, 0, 20)}vh) scale(${s})`);
-        }
+        // }
       }
 
       rafId = requestAnimationFrame(tick);
@@ -136,7 +136,7 @@ export const HeroSection = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="w-full relative flex flex-col items-center overflow-clip pb-20 pt-28 md:pt-32 md:pb-0"
+      className="w-full relative flex flex-col items-center overflow-clip pt-28 md:pt-32"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -195,23 +195,6 @@ export const HeroSection = () => {
       <div className="relative w-full mx-auto px-4 md:px-8 pt-8 md:pt-16 pb-0 text-center">
         {/* Main heading wrapper for positioning the tag */}
         <div className="relative inline-block text-center w-full max-w-[800px]">
-
-          {/* <h1 className="text-[44px] md:text-[64px] lg:text-[80px] font-light leading-[1.05] tracking-[-0.02em] text-white">
-            <span
-              style={{
-                background: "linear-gradient(90deg, #7dd3fc 0%, #3b82f6 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                
-              }}
-            >
-              Pioneering
-            </span>{" "}
-            the future
-            <br />
-            of hypersonic flight
-          </h1> */}
           <h1 
             className="relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1"
             style={{
@@ -277,7 +260,7 @@ export const HeroSection = () => {
       <div className="relative z-1 w-full flex justify-center pt-28 md:pt-24">
         <div 
           ref={imageRef}
-          className="relative w-full aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-transform origin-top"
+          className="relative w-full aspect-[1/1] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-transform origin-top"
           style={{ transform: "translateY(0px) scale(.7)" }}
         >
           <div className="absolute inset-0 overflow-hidden">

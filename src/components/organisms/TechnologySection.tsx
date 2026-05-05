@@ -126,7 +126,7 @@ export const TechnologySection = () => {
       <div id="technology" className="scroll-mt-24" />
       
       {/* Desktop View (md and above) */}
-      <div className="hidden md:block max-w-[1200px] mx-auto px-4 md:px-16 pt-8">
+      <div className="hidden md:block max-w-[1200px] mx-auto px-4 md:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24 items-start relative">
           
           {/* Left - Content panel */}
@@ -157,8 +157,8 @@ export const TechnologySection = () => {
           </div>
 
           {/* Right - Engine Image Container */}
-          <div className="lg:sticky lg:top-0 lg:h-screen self-start w-full flex items-center justify-center lg:justify-end order-1 lg:order-2">
-            <div className="relative w-full max-w-[500px] aspect-square bg-[#f8f8f8] flex items-center justify-center">
+          <div className="lg:sticky lg:top-0 lg:h-screen self-start w-full flex items-center justify-center lg:justify-end order-1 lg:order-2 border-t border-b md:border-l md:border-r border-zinc-300">
+            <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center">
               <div className="absolute top-0 left-0 w-1 h-3 bg-black -translate-x-1 -translate-y-3" />
               <div className="absolute top-0 right-0 w-1 h-3 bg-black translate-x-1 -translate-y-3" />
               <div className="absolute bottom-0 left-0 w-1 h-3 bg-black -translate-x-1 translate-y-3" />
