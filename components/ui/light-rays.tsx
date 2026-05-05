@@ -1,8 +1,6 @@
 "use client"
 
 import { useEffect, useState, type CSSProperties } from "react"
-import { motion } from "motion/react"
-
 import { cn } from "@/lib/utils"
 
 interface LightRaysProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -60,26 +58,19 @@ const Ray = ({
   intensity,
 }: LightRay) => {
   return (
-    <motion.div
-      className="pointer-events-none absolute -top-[12%] left-[var(--ray-left)] h-[var(--light-rays-length)] w-[var(--ray-width)] origin-top -translate-x-1/2 rounded-full bg-linear-to-b from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent opacity-0 mix-blend-screen blur-[var(--light-rays-blur)]"
+    <div
+      className="pointer-events-none absolute -top-[12%] left-[var(--ray-left)] h-[var(--light-rays-length)] w-[var(--ray-width)] origin-top rounded-full bg-linear-to-b from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent opacity-0 mix-blend-screen blur-[var(--light-rays-blur)] animate-ray-swing"
       style={
         {
           "--ray-left": `${left}%`,
           "--ray-width": `${width}px`,
+          "--ray-rotate": rotate,
+          "--ray-swing": swing,
+          "--ray-intensity": intensity,
+          "--ray-delay": `${delay}s`,
+          "--ray-duration": `${duration}s`,
         } as CSSProperties
       }
-      initial={{ rotate: rotate }}
-      animate={{
-        opacity: [0, intensity, 0],
-        rotate: [rotate - swing, rotate + swing, rotate - swing],
-      }}
-      transition={{
-        duration: duration,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: delay,
-        repeatDelay: duration * 0.1,
-      }}
     />
   )
 }

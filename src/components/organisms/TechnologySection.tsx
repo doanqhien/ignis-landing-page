@@ -1,15 +1,14 @@
 "use client";
-
+ 
 import Image from "next/image";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import RDRE from "@/public/engine-propulsion.webp";
 import DIGITAL_TWIN from "@/public/IMG.webp";
 import IOT_SENSOR from "@/public/Frame.webp";
+import { useInView } from "@/src/lib/useInView";
 
 const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "0px 0px -50% 0px" });
+  const [ref, isInView] = useInView({ threshold: 0.5, once: false, rootMargin: "0px 0px -50% 0px" });
 
   useEffect(() => {
     if (isInView) {
@@ -18,13 +17,12 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
   }, [isInView, index, setActiveCard]);
 
   return (
-    <motion.div 
+    <div 
       ref={ref}
-      className="relative z-10 flex items-start gap-8 min-h-[140px]"
-      animate={{ 
+      className="relative z-10 flex items-start gap-8 min-h-[140px] transition-opacity duration-500"
+      style={{ 
         opacity: index <= activeCard ? 1 : 0.2
       }}
-      transition={{ duration: 0.5 }}
     >
       {/* Static gray line from this dot downwards */}
       {index < 2 && (
@@ -35,15 +33,13 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
       )}
 
       {/* Active Line from this dot downwards */}
-      <motion.div 
-        className="absolute left-[10px] top-[20px] w-[2px] bg-black origin-top"
-        initial={{ height: 0 }}
-        animate={{ 
+      <div 
+        className="absolute left-[10px] top-[20px] w-[2px] bg-black origin-top transition-[height] duration-500"
+        style={{ 
           height: (index < 2 && activeCard > index) 
             ? "calc(100% + 160px)" 
             : "0px" 
         }}
-        transition={{ duration: 0.5 }}
       />
 
       {/* Number block with white background to break the vertical line */}
@@ -62,7 +58,7 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
           {stat.description}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -95,21 +91,35 @@ export const TechnologySection = () => {
 
   // Mobile Parallax Scroll Logic
   const mobileSectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: mobileSectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  const xMobile = useTransform(scrollYProgress, [0, 1], ["0%", "-66.666%"]);
   const [activeMobile, setActiveMobile] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    return scrollYProgress.onChange((latest) => {
-      if (latest < 0.33) setActiveMobile(0);
-      else if (latest < 0.66) setActiveMobile(1);
+    const section = mobileSectionRef.current;
+    if (!section || window.innerWidth >= 768) return;
+
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const sectionHeight = rect.height;
+      const viewHeight = window.innerHeight;
+      
+      // Calculate progress from 0 to 1 as section moves through viewport
+      // Start is when section top is at viewport top
+      // End is when section bottom is at viewport bottom
+      const progress = Math.min(Math.max(-rect.top / (sectionHeight - viewHeight), 0), 1);
+      
+      setScrollProgress(progress);
+      
+      if (progress < 0.33) setActiveMobile(0);
+      else if (progress < 0.66) setActiveMobile(1);
       else setActiveMobile(2);
-    });
-  }, [scrollYProgress]);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <section className="relative bg-[#ffffff]">
@@ -160,15 +170,13 @@ export const TechnologySection = () => {
               
               <div className="relative w-full h-full overflow-hidden">
                 {stats.map((stat, index) => (
-                  <motion.div
+                  <div
                     key={stat.number}
-                    className="absolute inset-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: activeCard === index ? 1 : 0 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 transition-opacity duration-600 ease-in-out"
+                    style={{ opacity: activeCard === index ? 1 : 0 }}
                   >
                     <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -205,24 +213,22 @@ export const TechnologySection = () => {
               
               <div className="relative w-full h-full overflow-hidden">
                 {stats.map((stat, index) => (
-                  <motion.div
+                  <div
                     key={stat.number}
-                    className="absolute inset-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: activeMobile === index ? 1 : 0 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 transition-opacity duration-600 ease-in-out"
+                    style={{ opacity: activeMobile === index ? 1 : 0 }}
                   >
                     <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="100vw" />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
 
           <div className="relative w-full mt-6 overflow-hidden flex-shrink-0">
-            <motion.div 
-              className="flex w-[300%]"
-              style={{ x: xMobile }}
+            <div 
+              className="flex w-[300%] transition-transform duration-100 ease-out"
+              style={{ transform: `translateX(${-scrollProgress * 66.666}%)` }}
             >
               {stats.map((stat, index) => (
                 <div key={index} className="w-1/3 px-4 flex flex-col justify-start">
@@ -238,7 +244,7 @@ export const TechnologySection = () => {
                   </p>
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div className="px-4 mt-8 flex-shrink-0">
@@ -274,4 +280,5 @@ export const TechnologySection = () => {
     </section>
   );
 };
+
 

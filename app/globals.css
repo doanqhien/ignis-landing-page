@@ -165,3 +165,22 @@ body {
 @utility saans-mono {
   font-variation-settings: "MONO" 100;
 }
+
+@keyframes ray-swing {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) rotate(calc(var(--ray-rotate) * 1deg - var(--ray-swing) * 1deg));
+  }
+  50% {
+    opacity: var(--ray-intensity);
+    transform: translateX(-50%) rotate(calc(var(--ray-rotate) * 1deg + var(--ray-swing) * 1deg));
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) rotate(calc(var(--ray-rotate) * 1deg - var(--ray-swing) * 1deg));
+  }
+}
+
+.animate-ray-swing {
+  animation: ray-swing var(--ray-duration) ease-in-out var(--ray-delay) infinite;
+}

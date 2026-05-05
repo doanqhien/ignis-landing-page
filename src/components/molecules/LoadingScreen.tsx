@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import { LoadingContext } from "@/src/lib/LoadingContext";
+import { cn } from "@/src/lib/utils";
 
 export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [colorRevealed, setColorRevealed] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
     // Wait for the page to be fully loaded, then show exit animation
@@ -20,6 +21,10 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
       // Then: dismiss the loading screen
       setTimeout(() => {
         setIsLoading(false);
+        // Remove from DOM after exit animation finishes
+        setTimeout(() => {
+          setIsMounted(false);
+        }, 800);
       }, 2200);
     };
 
@@ -46,57 +51,55 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <motion.div
-            key="loading-screen"
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0c]"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-          >
-            {/* Background image */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-              <Image
-                src="/background.png"
-                alt="Background"
-                fill
-                priority
-                className="object-cover opacity-40"
-              />
-            </div>
+      {isMounted && (
+        <div
+          className={cn(
+            "fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0c] transition-opacity duration-600 ease-[cubic-bezier(0.76,0,0.24,1)]",
+            !isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
+          )}
+        >
+          {/* Background image */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <Image
+              src="/background.png"
+              alt="Background"
+              fill
+              priority
+              className="object-cover opacity-40"
+            />
+          </div>
 
-            {/* Logo: grayscale → color transition */}
-            <motion.div
-              initial={{ opacity: .8, scale: .99 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10"
-            >
-              <Image
-                src="/Logo.png"
-                alt="Ignis Hypersonics"
-                width={160}
-                height={60}
-                priority
-                className="w-[130px] md:w-[160px] h-auto transition-all duration-1000 ease-out"
-                style={{
-                  filter: colorRevealed ? "grayscale(0.5) brightness(1)" : "grayscale(1) brightness(0)",
-                }}
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Logo: grayscale → color transition */}
+          <div
+            className={cn(
+              "relative z-10 animate-in fade-in zoom-in-95 duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] fill-mode-both"
+            )}
+          >
+            <Image
+              src="/Logo.png"
+              alt="Ignis Hypersonics"
+              width={160}
+              height={60}
+              priority
+              className="w-[130px] md:w-[160px] h-auto transition-all duration-1000 ease-out"
+              style={{
+                filter: colorRevealed ? "grayscale(0.5) brightness(1)" : "grayscale(1) brightness(0)",
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Page content - always rendered but hidden behind loading screen */}
       <LoadingContext.Provider value={isLoading}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoading ? 0 : 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+        <div
+          className={cn(
+            "transition-opacity duration-500 delay-100",
+            isLoading ? "opacity-0" : "opacity-100"
+          )}
         >
           {children}
-        </motion.div>
+        </div>
       </LoadingContext.Provider>
     </>
   );

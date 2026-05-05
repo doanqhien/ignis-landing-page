@@ -2,55 +2,45 @@
 
 import { LightRays } from "@/components/ui/light-rays";
 import { TextReveal } from "@/components/ui/text-reveal";
-import { motion } from "framer-motion";
+import { useInView } from "@/src/lib/useInView";
 
 export const QuoteSection = () => {
+  const [ref, isInView] = useInView({ threshold: 0.1 });
+
   return (
-    <section className="relative py-16 md:py-32 bg-transparent flex items-center justify-center">
+    <section ref={ref} className="relative py-16 md:py-32 bg-transparent flex items-center justify-center">
       <LightRays />
       {/* Dots on left and right */}
-      <motion.div 
-        className="absolute left-[4%] md:left-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+      <div 
+        className={`absolute left-[4%] md:left-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-left-[50px] duration-1000 delay-100 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
-      <motion.div 
-        className="absolute left-[6%] md:left-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+      <div 
+        className={`absolute left-[6%] md:left-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-left-[50px] duration-1000 delay-300 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
-      <motion.div 
-        className="absolute left-[4%] md:left-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      <div 
+        className={`absolute left-[4%] md:left-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-left-[50px] duration-1000 delay-500 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
 
-      <motion.div 
-        className="absolute right-[4%] md:right-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.1, ease: "easeOut" }}
+      <div 
+        className={`absolute right-[4%] md:right-[10%] top-[25%] md:top-[30%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-right-[50px] duration-1000 delay-100 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
-      <motion.div 
-        className="absolute right-[6%] md:right-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+      <div 
+        className={`absolute right-[6%] md:right-[12.5%] top-[50%] md:top-[50%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-right-[50px] duration-1000 delay-300 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
-      <motion.div 
-        className="absolute right-[4%] md:right-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white"
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      <div 
+        className={`absolute right-[4%] md:right-[10%] top-[75%] md:top-[70%] w-[5px] h-[5px] bg-white ${
+          isInView ? "animate-in fade-in slide-in-from-right-[50px] duration-1000 delay-500 ease-out fill-mode-both" : "opacity-0"
+        }`}
       />
 
       <div className="max-w-[90%] md:max-w-2/3 mx-auto relative">

@@ -60,8 +60,8 @@ export const HeroSection = () => {
 
         if (imageRef.current) {
           if (isMobile) {
-            // Mobile: subtle scale only (0.85 -> 1) to avoid heavy layout shifts
-            const scale = lerp(sy, 0, 300, 0.85, 1);
+            // Mobile: subtle scale only (0.7 -> 1) to avoid heavy layout shifts
+            const scale = lerp(sy, 0, 300, 0.7, 1);
             imageRef.current.style.transform = `scale(${scale})`;
           } else {
             // Desktop: full animation
@@ -136,7 +136,7 @@ export const HeroSection = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="w-full relative flex flex-col items-center overflow-clip pb-40 pt-28 md:pt-32 md:pb-0"
+      className="w-full relative flex flex-col items-center overflow-clip pb-20 pt-28 md:pt-32 md:pb-0"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -278,13 +278,8 @@ export const HeroSection = () => {
         <div 
           ref={imageRef}
           className="relative w-full aspect-[3/2] md:aspect-[2/1] overflow-visible min-w-[280px] md:min-w-0 z-10 mx-auto md:mx-0 will-change-transform origin-top"
-          style={{ transform: "translateY(0px) scale(var(--hero-scale, 0.3333))" }}
+          style={{ transform: "translateY(0px) scale(.7)" }}
         >
-          <style>{`
-            @media (max-width: 767px) {
-              :root { --hero-scale: 0.85; }
-            }
-          `}</style>
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src="/hero.webp"
