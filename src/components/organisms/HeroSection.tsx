@@ -196,7 +196,7 @@ export const HeroSection = () => {
         {/* Main heading wrapper for positioning the tag */}
         <div className="relative inline-block text-center w-full max-w-[800px]">
           <h1 
-            className="relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1"
+            className={`relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1 transition-opacity ${loadingComplete ? 'animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both' : 'opacity-0'}`}
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",
@@ -225,30 +225,16 @@ export const HeroSection = () => {
 
         {/* Description */}
         <div className="w-full flex pt-8 md:pt-16 justify-center items-center gap-x-3 md:gap-x-6 px-4 md:px-0">
-          <div className="h-16 md:h-10 w-2 md:pl-2 pl-0 border-l-[.5px] border-y-[.5px] border-zinc-500"></div>
+          <div className={`h-16 md:h-10 w-2 md:pl-2 pl-0 border-l-[.5px] border-y-[.5px] border-zinc-500 transition-all duration-1000 ${loadingComplete ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}></div>
           <p 
-            className="saans-mono whitespace-normal md:whitespace-nowrap text-[10px] md:text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.75] text-center max-w-[260px] md:max-w-none"
+            className={`saans-mono whitespace-normal md:whitespace-nowrap text-[10px] md:text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.75] text-center max-w-[260px] md:max-w-none ${loadingComplete ? 'animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 ease-out fill-mode-both' : 'opacity-0'}`}
           >
             Bringing the world closer in seconds with pioneering
             <br className="hidden md:block" />
             <span className="md:hidden"> </span>
             next-generation scramjet and rotating detonation engine technology.
           </p>
-          {/* <div className="flex flex-col max-w-[35%] ">
-            <SplitText
-              text="Bringing the world closer in seconds with pioneering next-generation scramjet and rotating detonation engine technology"
-              className="text-[8px] tracking-[0.1rem] text-zinc-500 uppercase leading-[1.75]"
-              delay={0}
-              duration={2}
-              ease="power3.out"
-              splitType="lines"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-            />
-          </div> */}
-          <div className="h-16 md:h-10 w-2 md:pr-2 pr-0 border-r-[.5px] border-y-[.5px] border-zinc-500"></div>
+          <div className={`h-16 md:h-10 w-2 md:pr-2 pr-0 border-r-[.5px] border-y-[.5px] border-zinc-500 transition-all duration-1000 ${loadingComplete ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}></div>
         </div>
       </div>
 
