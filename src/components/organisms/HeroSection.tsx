@@ -268,7 +268,7 @@ export const HeroSection = () => {
               preload
             />
             {/* Bottom fade to match next section */}
-            <div className="absolute bottom-0 left-0 right-0 h-12 md:h-32 bg-gradient-to-t from-gray-700 md:from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-8 md:h-32 bg-gradient-to-t from-gray-700 md:from-[#0a0a0c] to-transparent z-10 pointer-events-none" />
           </div>
           {/* Decorative Corner Crosshairs/Brackets */}
           <div className="absolute top-0 left-0 w-1 h-3 bg-white -translate-x-1 -translate-y-3" />

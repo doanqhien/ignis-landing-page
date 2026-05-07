@@ -62,9 +62,10 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
           {/* Background image */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <Aurora
-            colorStops={["#787878","#2b2b2b","#cdcdcd"]}
-            blend={1}
-            speed={1}
+              colorStops={["#787878","#2b2b2b","#cdcdcd"]}
+              blend={1}
+              speed={1}
+              amplitude={1}
           />
           </div>
 
