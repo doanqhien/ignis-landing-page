@@ -79,56 +79,51 @@ export const AboutSection = () => {
       <div className="w-full mx-auto px-4 md:px-8 lg:px-20">
         <LightRays />
         {/* Section header */}
-        <div className="max-w-4/5 md:max-w-3/4 mx-auto text-center mb-16">
+        <div className="max-w-4/5 md:max-w-3/4 mx-auto flex flex-col items-center justify-center text-center mb-16">
           {/* HIGH PERFORMANCE subtitle */}
-          <div className="flex items-center gap-2 justify-center">
-            <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-500"></div>
-            <p className="text-[8px] saans-mono tracking-[0.05rem] text-zinc-500 uppercase flex items-center justify-center">
+          <div className="flex items-center gap-2 justify-center p-1 h-fit">
+            <div className="h-4 w-1 border-l-[.25px] border-y-[.25px] border-zinc-500"></div>
+            <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-500 uppercase flex items-center justify-center">
               High Performance
             </p>
-            <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-500"></div>
+            <div className="h-4 w-1 border-r-[.25px] border-y-[.25px] border-zinc-500"></div>
           </div>
           {/* Mission text wrapper for tag positioning */}
-          <div className="relative">
+          <div className="relative flex justify-center items-center max-w-4xl">
             {/* BORN IN AUSTRALIA Floating Tag */}
-            <div className="saans-mono absolute top-[5%] -left-[5%] xl:-left-[15%] hidden lg:flex flex-col items-start opacity-90">
-              <div className="relative bg-[#1c1c1e] py-3 px-4 flex items-center gap-2 text-[9px] tracking-[0.05rem] text-zinc-200 uppercase backdrop-blur-md z-10 rounded-sm shadow-xl">
-                 BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover"/>
-                 
-                 {/* Connecting line dropping from the bottom of the tag */}
-                 <svg width="70" height="100" viewBox="0 0 70 100" fill="none" className="absolute top-full left-[45%] text-zinc-400 overflow-visible pointer-events-none">
+            <div className="saans-mono hidden md:flex md:flex-col items-start md:-top-4 lg:top-2 md:-left-4 lg:-left-10 xl:-left-16 opacity-90 md:scale-95 lg:scale-100 origin-top-left z-20">
+              <div className="relative flex flex-col items-center justify-center z-1 pb-12">
+                <div className="bg-[#262A2C] py-3 px-3 flex flex-row items-center justify-center w-24 rounded-sm text-[9px] tracking-[0.05rem] text-zinc-200 uppercase">
+                  BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover ml-2"/>
+                </div>
+                 <div className="pl-12">
+                  {/* Connecting line dropping from the bottom of the tag - Mobile (Shortened to prevent overlap) */}
+                 <svg width="40" height="45" viewBox="0 0 40 45" fill="none" className=" top-full left-[45%] text-zinc-400 overflow-visible pointer-events-none md:hidden">
+                    <path d="M 0 0 L 10 30 L 25 30" stroke="currentColor" strokeWidth="1" />
+                    {/* Square marker (outer border) */}
+                    <path d="M 19 24 h 12 v 12 h -12 Z" stroke="currentColor" strokeWidth="1" fill="transparent" className="transition-colors duration-500" />
+                    {/* Square marker (inner white square) */}
+                    <path d="M 23 28 h 4 v 4 h -4 Z" fill="white" className="transition-colors duration-500" />
+                 </svg>
+
+                 {/* Connecting line dropping from the bottom of the tag - Desktop */}
+                 <svg width="70" height="100" viewBox="0 0 70 100" fill="none" className=" top-full left-[45%] text-zinc-400 overflow-visible pointer-events-none hidden md:block">
                     <path d="M 0 0 L 20 80 L 50 80" stroke="currentColor" strokeWidth="1" />
                     {/* Square marker (outer border) */}
                     <path d="M 44 74 h 12 v 12 h -12 Z" stroke="currentColor" strokeWidth="1" fill="transparent" className="transition-colors duration-500" />
                     {/* Square marker (inner white square) */}
                     <path d="M 48 78 h 4 v 4 h -4 Z" fill="white" className="transition-colors duration-500" />
                  </svg>
+                 </div>
               </div>
             </div>
-
-            {/* <h2 className="text-[28px] md:text-[40px] lg:text-[48px] font-light leading-[1.2] tracking-[-0.01em]">
-              <span
-                style={{
-                  background: "linear-gradient(90deg, #7dd3fc 0%, #3b82f6 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Sovereign Australian propulsion
-              </span>
-              <br />
-              <span className="text-zinc-500">enabling next-generation</span>{" "}
-              <span className="text-white">defence</span>
-              <br />
-              <span className="text-white">and commercial applications.</span>
-            </h2> */}
             <TextReveal>Sovereign Australian propulsion enabling next-generation defence and commercial applications.</TextReveal>
+            <div className="hidden md:block"></div>
           </div>
         </div>
 
         {/* Feature cards */}
-        <div className="relative not-first:saans-mono tracking-[0.05rem] grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5 px-8">
+        <div className="relative not-first:saans-mono tracking-[0.05rem] flex justify-center items-baseline flex-col md:flex-row gap-8 md:gap-5 px-6">
           {features.map((feature, index) => (
             <AnimatedCard
               key={index}
@@ -137,7 +132,7 @@ export const AboutSection = () => {
             />
           ))}
            {/* Atmospheric lighting / reflection effect centered behind the Hero text */}
-      <div className="hidden md:block absolute bottom-0 -left-1/2 w-full max-w-225 h-50 bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
+            <div className="hidden md:block absolute bottom-0 -left-1/2 w-full max-w-225 h-50 bg-[#3b82f6]/10 blur-[100px] rounded-[100%] pointer-events-none z-0" />
         </div>
           
         {/* Contact Us button below cards */}

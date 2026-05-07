@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LoadingContext } from "@/src/lib/LoadingContext";
 import { cn } from "@/src/lib/utils";
+import Aurora  from "@/components/ui/aurora";
 
 export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,25 +55,23 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
       {isMounted && (
         <div
           className={cn(
-            "fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0c] transition-opacity duration-600 ease-[cubic-bezier(0.76,0,0.24,1)]",
+            "fixed inset-0 z-20 flex flex-col items-center justify-center bg-[#0a0a0c] transition-opacity duration-600 ease-[cubic-bezier(0.76,0,0.24,1)]",
             !isLoading ? "opacity-0 pointer-events-none" : "opacity-100"
           )}
         >
           {/* Background image */}
           <div className="absolute inset-0 z-0 pointer-events-none">
-            <Image
-              src="/background.png"
-              alt="Background"
-              fill
-              priority
-              className="object-cover opacity-40"
-            />
+            <Aurora
+            colorStops={["#787878","#2b2b2b","#cdcdcd"]}
+            blend={1}
+            speed={1}
+          />
           </div>
 
           {/* Logo: grayscale → color transition */}
           <div
             className={cn(
-              "relative z-10 animate-in fade-in zoom-in-95 duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] fill-mode-both"
+              "relative z-10"
             )}
           >
             <Image
@@ -81,7 +80,7 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
               width={160}
               height={60}
               priority
-              className="w-[130px] md:w-[160px] h-auto transition-all duration-1000 ease-out"
+              className="w-32.5 md:w-40 h-auto transition-all duration-1000 ease-out"
               style={{
                 filter: colorRevealed ? "grayscale(0.5) brightness(1)" : "grayscale(1) brightness(0)",
               }}

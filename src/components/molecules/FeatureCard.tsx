@@ -34,11 +34,11 @@ export const FeatureCard = ({ title, description, icon, videoSrc }: FeatureCardP
 
   return (
     <div 
-      className="group flex flex-col transition-all duration-500"
+      className="group flex flex-col transition-all duration-500 max-w-96"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <h3 className="text-[10px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-2 flex items-center gap-1.5">
+      <h3 className="text-[11px] font-medium tracking-[0.2em] text-zinc-400 uppercase mb-2 flex items-center gap-1.5">
         {title}{" "}
         <span className="w-1 h-1 bg-[#7dd3fc] shadow-[0_0_8px_rgba(59,130,246,0.6)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
       </h3>
@@ -59,22 +59,20 @@ export const FeatureCard = ({ title, description, icon, videoSrc }: FeatureCardP
           icon
         )}
       </div>
-
-      <p className="text-[9px] text-zinc-500 leading-[1.8] uppercase tracking-[0.1em]">
+      {/* description */}
             <SplitText
               text={description}
-              className="text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.8] max-w-sm mb-10 saans-mono"
+              className="text-[10px] md:text-[11px] tracking-[0] uppercase text-zinc-400 leading-[1.8] max-w-sm mb-10 saans-mono"
               delay={10}
               duration={2}
               ease="power3.out"
-              splitType="words, chars"
+              splitType="words"
               from={{ opacity: 0, y: 40 }}
               to={{ opacity: 1, y: 0 }}
               threshold={0.1}
-              rootMargin="-100px"
-              textAlign="justify"
+              rootMargin="0px"
+              textAlign="left"
             />
-      </p>
     </div>
   );
 };

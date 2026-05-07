@@ -21,7 +21,8 @@ const Footer = dynamic(
 
 export default function Home() {
   return (
-    <LoadingScreen>
+    <>
+      <LoadingScreen>
       <Navbar />
       <main className="flex-1">
         <HeroSection />
@@ -30,5 +31,6 @@ export default function Home() {
       </main>
       <Footer />
     </LoadingScreen>
+    </>
   );
 }

@@ -50,10 +50,10 @@ const StatItem = ({ stat, index, activeCard, setActiveCard }: any) => {
       </div>
       
       <div className="pt-1">
-        <h3 className="text-xs tracking-[-0.05rem] saans-mono text-zinc-800 uppercase mb-3">
+        <h3 className="text-sm tracking-[0.05rem] saans-mono text-zinc-800 uppercase mb-3">
           {stat.title}
         </h3>
-        <div className=" border-b border-zinc-400 border-dashed mb-3 opacity-40"></div>
+        <div className="border-b border-zinc-400 border-dashed mb-3 opacity-40"></div>
         <p className="text-sm text-zinc-500 leading-[1.5] max-w-sm">
           {stat.description}
         </p>
@@ -131,13 +131,13 @@ export const TechnologySection = () => {
           
           {/* Left - Content panel */}
           <div className="flex flex-col justify-center lg:pt-24 lg:pb-24 order-2 lg:order-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-3 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
-              <p className="text-[8px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
-              <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
+            <div className="flex items-center gap-2 mb-4 h-fit">
+              <div className="h-4 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
+              <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
+              <div className="h-4 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
             </div>
 
-            <h2 className="text-[40px] leading-[1.2] tracking-[0.01em] text-[#1a1a1c] mb-16">
+            <h2 className="text-[40px] leading-[1.2] tracking-[0.05rem] text-[#1a1a1c] mb-16">
               Our solutions deliver<br/>outstanding reliability
             </h2>
 
@@ -164,7 +164,7 @@ export const TechnologySection = () => {
               <div className="absolute bottom-0 left-0 w-1 h-3 bg-black -translate-x-1 translate-y-3" />
               <div className="absolute bottom-0 right-0 w-1 h-3 bg-black translate-x-1 translate-y-3" />
 
-              <div className="absolute bottom-4 left-4 z-10">
+              <div className="absolute bottom-2 left-4 z-10">
                 <span className="text-[8px] tracking-widest text-zinc-400 uppercase">Illustrated Image</span>
               </div>
               
@@ -195,7 +195,7 @@ export const TechnologySection = () => {
               <p className="text-[8px] tracking-[0.05em] text-zinc-500 uppercase">Technologies</p>
               <div className="h-3 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
             </div>
-            <h2 className="text-[24px] leading-[1.2] tracking-[-0.01em] text-[#1a1a1c]">
+            <h2 className="text-[27px] leading-[1.2] tracking-[0.05rem] text-[#1a1a1c]">
               Our solutions deliver<br/>outstanding reliability
             </h2>
           </div>
@@ -235,11 +235,11 @@ export const TechnologySection = () => {
                   <div className="text-[10px] text-zinc-400 mb-2 sm:mb-4 tracking-widest">
                     [ {index + 1}/{stats.length} ]
                   </div>
-                  <h3 className="text-[12px] sm:text-[13px] font-medium tracking-[0.1rem] text-zinc-800 uppercase mb-2 sm:mb-3 pr-4">
+                  <h3 className="text-[13px] font-medium tracking-[0.05rem] text-zinc-800 uppercase mb-2 sm:mb-3 pr-4">
                     {stat.title}
                   </h3>
                   <div className="border-b border-zinc-400 border-dashed mb-2 sm:mb-4 opacity-40"></div>
-                  <p className="text-[11px] sm:text-xs text-zinc-500 leading-[1.6]">
+                  <p className="text-[13px] sm:text-xs text-zinc-500 leading-[1.6]">
                     {stat.description}
                   </p>
                 </div>

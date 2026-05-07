@@ -20,14 +20,14 @@ export const CTASection = () => {
           {/* Left Column Content */}
           <div className="md:col-span-2 flex flex-col items-start text-left border-r-0 md:border-r border-zinc-700 px-10 md:px-6 md:pl-20 py-10 md:py-14">
             <h2 className={`text-[20px] md:text-[32px] font-light text-white tracking-[0.05rem] mb-4 transition-all duration-1000 ease-out ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+              isInView ? "opacity-100 translate-y-0 delay-500" : "opacity-0 translate-y-16"
             }`}>
               Ready to ignite?
             </h2>
 
             <SplitText
               text="Whether you're advancing sovereign defence capabilities, accelerating access to space, or exploring next-generation hypersonic applications — we're ready to connect."
-              className="text-[9px] tracking-[0.05rem] text-zinc-500 uppercase leading-[1.8] max-w-sm mb-10 saans-mono"
+              className="text-[9px] tracking-[0.05rem] text-zinc-400 uppercase leading-[1.8] max-w-sm mb-10 saans-mono"
               delay={300}
               duration={2}
               ease="power3.out"
@@ -36,14 +36,12 @@ export const CTASection = () => {
               to={{ opacity: 1, y: 0 }}
               threshold={0.1}
               rootMargin="-100px"
-              textAlign="justify"
+              textAlign="left"
             />
 
           <a
             href="mailto:admin@ignishypersonics.com"
-            className={`group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-black hover:bg-zinc-500 hover:text-black transition-all duration-1000 ease-out ${
-              isInView ? "opacity-100 translate-y-0 delay-500" : "opacity-0 translate-y-16"
-            }`}
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
             <span className="relative z-10 flex items-center gap-1">
               Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" />
@@ -60,7 +58,7 @@ export const CTASection = () => {
               <div className={`transition-all duration-1000 ease-out delay-700 ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}>
-                <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
+                <p className="text-[10px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
                   <span className="text-zinc-600">Email</span> 
                   <br/>
                   admin@ignishypersonics.com
