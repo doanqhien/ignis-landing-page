@@ -1,9 +1,17 @@
 import dynamic from "next/dynamic";
-import { Navbar } from "@/src/components/molecules/Navbar";
-import { HeroSection } from "@/src/components/organisms/HeroSection";
 import { LoadingScreen } from "@/src/components/molecules/LoadingScreen";
 
 // Lazy load below-the-fold sections to reduce initial JS bundle
+const Navbar = dynamic(
+  () => import("@/src/components/molecules/Navbar").then((mod) => mod.Navbar),
+  { ssr: true }
+);
+
+const HeroSection = dynamic(
+  () => import("@/src/components/organisms/HeroSection").then((mod) => mod.HeroSection),
+  { ssr: true }
+);
+
 const AboutSection = dynamic(
   () => import("@/src/components/organisms/AboutSection").then((mod) => mod.AboutSection),
   { ssr: true }
@@ -18,6 +26,7 @@ const Footer = dynamic(
   () => import("@/src/components/organisms/Footer").then((mod) => mod.Footer),
   { ssr: true }
 );
+
 
 export default function Home() {
   return (

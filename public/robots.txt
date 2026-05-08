@@ -1,5 +1,19 @@
 User-agent: *
 Allow: /
-User-agent: facebookexternalhit
-Allow: /
-Sitemap: https://ignis-6jn.pages.dev/sitemap.xml
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /dashboard/
+
+Disallow: /*?q=*
+Disallow: /*?search=*
+
+User-agent: GPTBot
+Disallow: /
+User-agent: ChatGPT-User
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://ignishypersonics.com/sitemap.xml

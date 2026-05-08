@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LoadingContext } from "@/src/lib/LoadingContext";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib/utils";
 import Aurora  from "@/components/ui/aurora";
 
 export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
@@ -62,7 +62,7 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
           {/* Background image */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <Aurora
-              colorStops={["#787878","#cdcdcd","#787878"]}
+              colorStops={["#cdcdcd","#787878","#cdcdcd"]}
               blend={1}
               speed={.75}
               amplitude={1}
@@ -80,11 +80,12 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
               alt="Ignis Hypersonics"
               width={160}
               height={60}
-              priority
+              fetchPriority="high"
               className="w-32.5 md:w-40 h-auto transition-all duration-1000 ease-out"
               style={{
                 filter: colorRevealed ? "grayscale(0.5) brightness(1)" : "grayscale(1) brightness(0)",
               }}
+              loading="lazy"
             />
           </div>
         </div>

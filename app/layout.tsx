@@ -23,15 +23,15 @@ export const metadata: Metadata = {
     "defence",
     "IGNIS",
   ],
-  metadataBase: new URL('https://ignis-6jn.pages.dev'),
+  metadataBase: new URL('https://ignishypersonics.com'),
   openGraph: {
     title: 'Ignis Hypersonic',
     description: 'Sovereign Australian propulsion enabling next-generation defence and commercial applications. Rotating Detonation Engine technology for hypersonic flight.',
-    url: 'https://ignis-6jn.pages.dev',
+    url: 'https://ignishypersonics.com',
     siteName: 'Ignis Hypersonic',
     images: [
       {
-        url: '/opengraph-image.png', 
+        url: 'https://ignishypersonics.com/Thumbnail.png', 
         width: 1200,
         height: 630,
         alt: 'Ignis Hypersonic',
@@ -44,10 +44,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Ignis Hypersonic',
     description: 'Sovereign Australian propulsion enabling next-generation defence and commercial applications. Rotating Detonation Engine technology for hypersonic flight.',
-    images: ['/opengraph-image.png'],
+    images: ['https://ignishypersonics.com/Thumbnail.png'],
   },
   icons: {
-    icon: '/favicon.ico', 
+    icon: 'https://ignishypersonics.com/favicon.ico', 
   },
 };
 

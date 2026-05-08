@@ -166,8 +166,9 @@ export const HeroSection = () => {
           src={BackGroundLines} 
           alt="Background" 
           fill 
-          priority 
+          fetchPriority="high" 
           className="object-cover"
+          preload
         />
       </div>
 
@@ -204,7 +205,7 @@ export const HeroSection = () => {
         {/* Main heading wrapper for positioning the tag */}
         <div className="relative inline-block text-center w-full max-w-[800px]">
           <h1 
-            className={`relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1 transition-opacity ${loadingComplete ? 'animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out fill-mode-both' : 'opacity-0'}`}
+            className={`relative text-[38px] sm:text-[44px] md:text-[64px] lg:text-[80px] leading-[1.05] tracking-[0.05rem] py-2 px-1 transition-opacity ${loadingComplete ? 'animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out fill-mode-both' : 'opacity-0'}`}
             style={{
               background: "radial-gradient(circle at 60% 180%, #FFFFFF 50%, #58b1e3 70%)",
               WebkitBackgroundClip: "text",

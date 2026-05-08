@@ -131,7 +131,7 @@ export const TechnologySection = () => {
           
           {/* Left - Content panel */}
           <div className="flex flex-col justify-center lg:pt-24 lg:pb-24 order-2 lg:order-1">
-            <div className="flex items-center gap-2 mb-4 h-fit">
+            <div className="flex items-center gap-2 mb-4 h-fit w-fit">
               <div className="h-4 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
               <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
               <div className="h-4 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
@@ -175,7 +175,7 @@ export const TechnologySection = () => {
                     className="absolute inset-0 transition-opacity duration-600 ease-in-out"
                     style={{ opacity: activeCard === index ? 1 : 0 }}
                   >
-                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
+                    <Image preload src={stat.image} alt={stat.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" fetchPriority="high" />
                   </div>
                 ))}
               </div>
@@ -218,7 +218,7 @@ export const TechnologySection = () => {
                     className="absolute inset-0 transition-opacity duration-600 ease-in-out"
                     style={{ opacity: activeMobile === index ? 1 : 0 }}
                   >
-                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="100vw" />
+                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="100vw" fetchPriority="high" preload />
                   </div>
                 ))}
               </div>
