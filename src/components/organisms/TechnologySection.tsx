@@ -91,42 +91,28 @@ export const TechnologySection = () => {
 
   // Mobile Parallax Scroll Logic
   const mobileSectionRef = useRef<HTMLDivElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
   const [activeMobile, setActiveMobile] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const section = mobileSectionRef.current;
     if (!section || window.innerWidth >= 768) return;
 
-    let ticking = false;
-
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const rect = section.getBoundingClientRect();
-          const sectionHeight = rect.height;
-          const viewHeight = window.innerHeight;
-          
-          // Calculate progress from 0 to 1 as section moves through viewport
-          // Start is when section top is at viewport top
-          // End is when section bottom is at viewport bottom
-          const progress = Math.min(Math.max(-rect.top / (sectionHeight - viewHeight), 0), 1);
-          
-          // 1. Direct DOM manipulation for buttery smooth 60fps animation
-          if (sliderRef.current) {
-            sliderRef.current.style.transform = `translateX(${-progress * 66.666}%)`;
-          }
-          
-          // 2. React state for active indicators
-          // (React is smart enough to only re-render if the value actually changes)
-          if (progress < 0.33) setActiveMobile(0);
-          else if (progress < 0.66) setActiveMobile(1);
-          else setActiveMobile(2);
-
-          ticking = false;
-        });
-        ticking = true;
-      }
+      const rect = section.getBoundingClientRect();
+      const sectionHeight = rect.height;
+      const viewHeight = window.innerHeight;
+      
+      // Calculate progress from 0 to 1 as section moves through viewport
+      // Start is when section top is at viewport top
+      // End is when section bottom is at viewport bottom
+      const progress = Math.min(Math.max(-rect.top / (sectionHeight - viewHeight), 0), 1);
+      
+      setScrollProgress(progress);
+      
+      if (progress < 0.33) setActiveMobile(0);
+      else if (progress < 0.66) setActiveMobile(1);
+      else setActiveMobile(2);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -241,9 +227,8 @@ export const TechnologySection = () => {
 
           <div className="relative w-full mt-6 overflow-hidden flex-shrink-0">
             <div 
-              ref={sliderRef}
-              className="flex w-[300%]"
-              style={{ transform: `translateX(0%)` }}
+              className="flex w-[300%] transition-transform duration-100 ease-out"
+              style={{ transform: `translateX(${-scrollProgress * 66.666}%)` }}
             >
               {stats.map((stat, index) => (
                 <div key={index} className="w-1/3 px-4 flex flex-col justify-start">
