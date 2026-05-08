@@ -241,7 +241,7 @@ export const HeroSection = () => {
             Bringing the world closer in seconds with pioneering
             <br className="hidden md:block" />
             <span className="md:hidden"> </span>
-            next-generation scramjet and rotating detonation engine technology.
+            next-generation rotating detonation engine technology.
           </p>
           <div className={`h-16 md:h-10 w-2 md:pr-2 pr-0 border-r-[.5px] border-y-[.5px] border-zinc-500 transition-all duration-1000 ${loadingComplete ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}`}></div>
         </div>
