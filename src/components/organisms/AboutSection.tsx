@@ -81,7 +81,7 @@ export const AboutSection = () => {
         {/* Section header */}
         <div className="max-w-4/5 md:max-w-3/4 mx-auto flex flex-col items-center justify-center text-center mb-16">
           {/* HIGH PERFORMANCE subtitle */}
-          <div className="flex items-center gap-2 justify-center p-1 h-fit w-fit">
+          <div className="w-48 flex items-center gap-2 justify-center p-1 h-fit">
             <div className="h-4 w-1 border-l-[.25px] border-y-[.25px] border-zinc-500"></div>
             <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-500 uppercase flex items-center justify-center">
               High Performance

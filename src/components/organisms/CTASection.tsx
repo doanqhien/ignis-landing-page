@@ -58,7 +58,7 @@ export const CTASection = () => {
               <div className={`transition-all duration-1000 ease-out delay-700 ${
                 isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}>
-                <p className="text-[10px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
+                <p className="px-1 md:px-0 text-[10px] saans-mono tracking-[0.05rem] text-zinc-400 uppercase">
                   <span className="text-zinc-600">Email</span> 
                   <br/>
                   admin@ignishypersonics.com
@@ -67,7 +67,7 @@ export const CTASection = () => {
             </div>
 
             {/* Logo positioned at bottom right */}
-            <div className="w-full h-full flex justify-center items-center pointer-events-none border-r border-t-0 md:border-r-0 md:border-t border-zinc-600 pr-2">
+            <div className="w-full h-full flex justify-center items-center pointer-events-none border-r border-t-0 md:border-r-0 md:border-t border-zinc-600 px-2 md:pr-2">
               <Image src={Logo} alt="Logo" width={140} height={140} className="opacity-50" />
             </div>
           </div>

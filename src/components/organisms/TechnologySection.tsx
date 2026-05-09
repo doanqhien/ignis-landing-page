@@ -89,10 +89,9 @@ export const TechnologySection = () => {
     },
   ];
 
-  // Mobile Parallax Scroll Logic
+  // Mobile Slider Logic
   const mobileSectionRef = useRef<HTMLDivElement>(null);
   const [activeMobile, setActiveMobile] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const section = mobileSectionRef.current;
@@ -103,23 +102,34 @@ export const TechnologySection = () => {
       const sectionHeight = rect.height;
       const viewHeight = window.innerHeight;
       
-      // Calculate progress from 0 to 1 as section moves through viewport
-      // Start is when section top is at viewport top
-      // End is when section bottom is at viewport bottom
       const progress = Math.min(Math.max(-rect.top / (sectionHeight - viewHeight), 0), 1);
       
-      setScrollProgress(progress);
-      
-      if (progress < 0.33) setActiveMobile(0);
-      else if (progress < 0.66) setActiveMobile(1);
-      else setActiveMobile(2);
+      let newIndex = 0;
+      if (progress < 0.33) newIndex = 0;
+      else if (progress < 0.66) newIndex = 1;
+      else newIndex = 2;
+
+      setActiveMobile((prev) => {
+        if (prev !== newIndex) {
+          return newIndex;
+        }
+        return prev;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const scrollToMobileIndex = (index: number) => {
+    const section = mobileSectionRef.current;
+    if (section) {
+      const targetY = section.offsetTop + (index * window.innerHeight);
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="relative bg-[#ffffff]">
@@ -131,7 +141,7 @@ export const TechnologySection = () => {
           
           {/* Left - Content panel */}
           <div className="flex flex-col justify-center lg:pt-24 lg:pb-24 order-2 lg:order-1">
-            <div className="flex items-center gap-2 mb-4 h-fit w-fit">
+            <div className="flex items-center gap-2 mb-4 h-fit w-48">
               <div className="h-4 w-1 border-l-[.25px] border-y-[.25px] border-zinc-400"></div>
               <p className="text-[9px] saans-mono tracking-[0.05rem] text-zinc-600 uppercase">Technologies</p>
               <div className="h-4 w-1 border-r-[.25px] border-y-[.25px] border-zinc-400"></div>
@@ -185,7 +195,7 @@ export const TechnologySection = () => {
         </div>
       </div>
 
-      {/* Mobile View (Horizontal Scroll Parallax) */}
+      {/* Mobile View */}
       <div ref={mobileSectionRef} className="block md:hidden w-full h-[300vh] relative">
         <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center overflow-hidden bg-white py-8">
           
@@ -227,8 +237,8 @@ export const TechnologySection = () => {
 
           <div className="relative w-full mt-6 overflow-hidden flex-shrink-0">
             <div 
-              className="flex w-[300%] transition-transform duration-100 ease-out"
-              style={{ transform: `translateX(${-scrollProgress * 66.666}%)` }}
+              className="flex w-[300%] transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${activeMobile * 33.333}%)` }}
             >
               {stats.map((stat, index) => (
                 <div key={index} className="w-1/3 px-4 flex flex-col justify-start">
@@ -261,7 +271,8 @@ export const TechnologySection = () => {
                 return (
                   <div 
                     key={index}
-                    className={`absolute top-1/2 flex items-center justify-center w-[14px] h-[14px] transition-colors duration-500 border-[.5px] border-zinc-500 z-10 ${index <= activeMobile ? 'bg-black' : 'bg-white'}`}
+                    onClick={() => scrollToMobileIndex(index)}
+                    className={`absolute top-1/2 flex items-center justify-center w-[14px] h-[14px] transition-colors duration-500 border-[.5px] border-zinc-500 z-10 cursor-pointer ${index <= activeMobile ? 'bg-black' : 'bg-white'}`}
                     style={{ 
                       left: `${percentage}%`,
                       transform: `translate(${offset}, -50%)`
