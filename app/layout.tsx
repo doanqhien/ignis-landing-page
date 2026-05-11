@@ -47,9 +47,19 @@ export const metadata: Metadata = {
     images: ['https://ignishypersonics.com/Thumbnail.png'],
   },
   icons: {
-    icon: 'https://ignishypersonics.com/favicon.ico', 
+    icon: 'https://ignishypersonics.com/icon.png',
+    apple: 'https://ignishypersonics.com/icon.png',
   },
 };
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Ignis Hypersonics",
+  "alternateName": ["Ignis", "IgnisHypersonics"],
+  "url": "https://ignishypersonics.com/",
+  "description": "Sovereign Australian propulsion enabling next-generation defence and commercial applications. Rotating Detonation Engine technology for hypersonic flight."
+}
 
 export default function RootLayout({
   children,
@@ -58,6 +68,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("relative h-full", saans.variable)}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="relative min-h-full flex flex-col font-saans antialiased">
         {children}
       </body>
