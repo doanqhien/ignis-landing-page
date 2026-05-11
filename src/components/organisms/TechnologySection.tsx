@@ -136,7 +136,7 @@ export const TechnologySection = () => {
       <div id="technology" className="scroll-mt-24" />
       
       {/* Desktop View (md and above) */}
-      <div className="hidden md:block max-w-[1200px] mx-auto px-4 md:px-16">
+      <div className="hidden md:block max-w-[1200px] mx-auto px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-24 items-start relative">
           
           {/* Left - Content panel */}

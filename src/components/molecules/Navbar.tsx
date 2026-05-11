@@ -207,13 +207,13 @@ export const Navbar = () => {
             </a>
 
             {/* Email Section */}
-            <div className={`flex items-center justify-center mb-8 w-full max-w-[280px] ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-300 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
-              <div className="border-l-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
+            <div className={`flex items-center justify-center mb-8 w-full max-w-70 ${menuOpen ? 'animate-in fade-in slide-in-from-bottom-5 duration-500 ease-out delay-300 fill-mode-both' : 'opacity-0 transition-opacity duration-100'}`}>
+              <div className="border-l-[0.5px] border-y-[0.5px] border-[#555] w-1.5 h-13"></div>
               <div className="flex-1 flex flex-col items-center justify-center py-2">
-                <span className="text-[9px] tracking-[0.05rem] text-[#444] uppercase mb-[6px]">EMAIL US AT</span>
+                <span className="text-[9px] text-[#444] uppercase mb-1.5">EMAIL US AT</span>
                 <p className="text-[11px] tracking-[0.08em] text-[#1a1a1c] font-medium">ADMIN@IGNISHYPERSONICS.COM</p>
               </div>
-              <div className="border-r-[0.5px] border-y-[0.5px] border-[#555] w-[6px] h-[52px]"></div>
+              <div className="border-r-[0.5px] border-y-[0.5px] border-[#555] w-1.5 h-13"></div>
             </div>
 
             {/* Footer Links */}
