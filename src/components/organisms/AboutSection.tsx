@@ -94,7 +94,7 @@ export const AboutSection = () => {
             <div className="saans-mono hidden md:flex md:flex-col items-start md:-top-4 lg:top-2 md:-left-4 lg:-left-10 xl:-left-16 opacity-90 md:scale-95 lg:scale-100 origin-top-left z-20">
               <div className="relative flex flex-col items-center justify-center z-1 pb-12">
                 <div className="bg-[#262A2C] py-3 px-3 flex flex-row items-center justify-center w-24 rounded-sm text-[9px] tracking-[0.05rem] text-zinc-200 uppercase">
-                  BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover ml-2"/>
+                  BORN IN <Image src={AustraliaIcon} alt="Australia" width={16} height={16} className="rounded-full object-cover ml-2" priority />
                 </div>
                  <div className="pl-12">
                   {/* Connecting line dropping from the bottom of the tag - Mobile (Shortened to prevent overlap) */}
@@ -142,8 +142,8 @@ export const AboutSection = () => {
             className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
             <span className="relative z-10 flex items-center gap-1">
-              Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" />
-            </span>
+              Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" priority />
+            </span> 
             <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
               <span className="w-0 h-0 bg-white rounded-full transition-all duration-600 ease-out group-hover:w-56 group-hover:h-56"></span>
             </span>

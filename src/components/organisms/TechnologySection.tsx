@@ -185,7 +185,7 @@ export const TechnologySection = () => {
                     className="absolute inset-0 transition-opacity duration-600 ease-in-out"
                     style={{ opacity: activeCard === index ? 1 : 0 }}
                   >
-                    <Image preload src={stat.image} alt={stat.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" fetchPriority="high" />
+                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" priority />
                   </div>
                 ))}
               </div>
@@ -228,7 +228,7 @@ export const TechnologySection = () => {
                     className="absolute inset-0 transition-opacity duration-600 ease-in-out"
                     style={{ opacity: activeMobile === index ? 1 : 0 }}
                   >
-                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="100vw" fetchPriority="high" preload />
+                    <Image src={stat.image} alt={stat.title} fill className="object-cover" sizes="100vw" priority />
                   </div>
                 ))}
               </div>

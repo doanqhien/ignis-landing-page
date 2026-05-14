@@ -80,12 +80,11 @@ export const LoadingScreen = ({ children }: { children: React.ReactNode }) => {
               alt="Ignis Hypersonics"
               width={160}
               height={60}
-              fetchPriority="high"
+              priority
               className="w-32.5 md:w-40 h-auto transition-all duration-1000 ease-out"
               style={{
                 filter: colorRevealed ? "grayscale(0.5) brightness(1)" : "grayscale(1) brightness(0)",
               }}
-              loading="lazy"
             />
           </div>
         </div>

@@ -13,6 +13,7 @@ export const Footer = () => {
           alt="Background" 
           fill 
           className="object-cover opacity-80"
+          priority
         />
       </div>
 

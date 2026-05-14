@@ -71,7 +71,7 @@ export const Navbar = () => {
         </div>
 
         <div className="mx-auto px-4 md:px-5 flex items-center justify-between h-14 md:h-16">
-          <Image src={logo} alt="Logo" width={140} height={140} />
+          <Image src={logo} alt="Logo" width={140} height={140} priority />
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6 bg-[#a0a0a0] p-[5px] rounded-sm ">

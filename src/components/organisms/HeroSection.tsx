@@ -166,9 +166,8 @@ export const HeroSection = () => {
           src={BackGroundLines} 
           alt="Background" 
           fill 
-          fetchPriority="high" 
+          priority 
           className="object-cover"
-          preload
         />
       </div>
 
@@ -265,8 +264,7 @@ export const HeroSection = () => {
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 1200px"
-              fetchPriority="high"
-              preload
+              priority
             />
             {/* Bottom fade to match next section */}
             {/* <div className="absolute bottom-0 left-0 right-0 h-8 md:h-32 bg-gradient-to-t from-gray-700 md:from-[#0a0a0c] to-transparent z-10 pointer-events-none" /> */}

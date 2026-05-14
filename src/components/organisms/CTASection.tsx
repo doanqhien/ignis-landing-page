@@ -44,7 +44,7 @@ export const CTASection = () => {
             className="group relative overflow-hidden inline-flex items-center justify-center gap-1 text-[9px] saans-mono tracking-[0.05rem] text-white uppercase py-4 px-6 rounded bg-zinc-800 border border-transparent hover:bg-zinc-500 hover:text-black transition-all duration-500"
           >
             <span className="relative z-10 flex items-center gap-1">
-              Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" />
+              Contact Us <Image src={Arrow} alt="Arrow" width={16} height={16} className="invert group-hover:invert-0 transition-all duration-500" priority />
             </span>
             <span className="absolute -top-10 -left-10 flex items-center justify-start pointer-events-none">
               <span className="w-0 h-0 bg-white rounded-full transition-all duration-600 ease-out group-hover:w-56 group-hover:h-56"></span>
@@ -68,7 +68,7 @@ export const CTASection = () => {
 
             {/* Logo positioned at bottom right */}
             <div className="w-full h-full flex justify-center items-center pointer-events-none border-r border-t-0 md:border-r-0 md:border-t border-zinc-600 px-2 md:pr-2">
-              <Image src={Logo} alt="Logo" width={140} height={140} className="opacity-50" />
+              <Image src={Logo} alt="Logo" width={140} height={140} className="opacity-50" priority />
             </div>
           </div>
 
