@@ -12,7 +12,7 @@ const saans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Ignis Hypersonic",
+  title: "Ignis Hypersonics",
   description:
     "Sovereign Australian propulsion enabling next-generation defence and commercial applications. Rotating Detonation Engine technology for hypersonic flight.",
   keywords: [
@@ -25,10 +25,10 @@ export const metadata: Metadata = {
   ],
   metadataBase: new URL('https://ignishypersonics.com'),
   openGraph: {
-    title: 'Ignis Hypersonic',
+    title: 'Ignis Hypersonics',
     description: 'Sovereign Australian propulsion enabling next-generation defence and commercial applications. Rotating Detonation Engine technology for hypersonic flight.',
     url: 'https://ignishypersonics.com',
-    siteName: 'Ignis Hypersonic',
+    siteName: 'Ignis Hypersonics',
     images: [
       {
         url: 'https://ignishypersonics.com/Thumbnail.png', 
